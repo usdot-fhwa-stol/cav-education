@@ -1,0 +1,11 @@
+{
+  "namespace": "cav",
+  "type": "record",
+  "name": "dsrc_message_frame.key",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "long"
+    }
+  ]
+}

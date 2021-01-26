@@ -24,7 +24,7 @@ read -r ipaddr
 
 nmap -e $iface -sS -v -A -T4 $ipaddr
 
-echo "Do the Ports name sense?"
+echo "Do the Ports look OK?"
 
 
 

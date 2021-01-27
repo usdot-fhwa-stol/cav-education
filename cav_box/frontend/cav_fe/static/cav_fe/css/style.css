@@ -1,0 +1,24 @@
+li a {
+    color: green;
+}
+body {
+    font-size: 16px !important;
+    font-family: arial,sans-serif !important;
+    background-color: rgb(255, 255, 255);
+}
+a.navbar-brand{
+    font-size: 20px !important;
+}
+button,canvas{
+    font-size: 16px !important;
+}
+.form-select.form-select-lg.mb-3,.form-control,.modal-title,.modal-body{
+    font-size: 16px !important;
+}
+.modal-title{
+    font-weight: bold
+}
+.pointer{
+    cursor: pointer;
+}
+

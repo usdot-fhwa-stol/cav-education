@@ -1,0 +1,171 @@
+
+  {% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add React in One Minute</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'thirdparty/css/Chart.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cav_fe/css/style.css' %}">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    {% comment %} <link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" /> {% endcomment %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+   
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="{% static 'thirdparty/js/moment.js' %} "></script>
+    <script src="{% static 'thirdparty/js/Chart.js' %} "></script>
+    <script src="{% static 'thirdparty/js/utils.js' %} "></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
+
+    <script src="{% static 'cav_fe/js/app.js' %} "></script>
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script> {% endcomment %}
+  </head>
+  <body>
+  <nav class="navbar navbar-light bg-light">
+    <div style="float: left; text-align: left; width: 100%">
+      <a class="navbar-brand" href="#" >CAV Prototype</a>
+    </div>
+  </nav>
+  <div class="container-fluid" style="width: 100%">
+  <div class="row">
+    <div class="col-4">              
+        <div id='map' style='height: 100%; width: 100%'></div>
+    </div>
+    <div class="col-8" >            
+          <div style="display:inline-block">
+            <div style=" display: inline-block; margin-left: 150px;height: 100%; width: 100%'">
+              <button id="randomizeData" class="btn btn-outline-primary">Random Data</button>
+              <button id="addDataset" class="btn btn-outline-primary">Add Dataset</button>
+              <button id="removeDataset" class="btn btn-outline-primary">Remove Dataset</button>
+              <button id="addData" class="btn btn-outline-primary">Add Data</button>
+              <button id="removeData" class="btn btn-outline-primary">Remove Data</button>
+            </div>
+              
+              {% comment %} <div class="chartjs-size-monitor">
+                <div class="chartjs-size-monitor-expand">
+                  <div class=""></div>
+                </div>
+                <div class="chartjs-size-monitor-shrink">
+                  <div class=""></div>
+                </div>
+              </div> {% endcomment %}
+
+            <div style="width: 100%; display: inline-block">
+              <canvas id="canvas" style="display: inline-block; width: 1015px; height: 600px;" width="1415" height="600" class="chartjs-render-monitor"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+ <p>
+        This is the first comment.{{question_id}}
+        <!-- We will put our React component inside this div. -->
+        <div class="like_button_container"   data-commentid="1"></div>
+      </p>
+  <div class="row">
+    <div class="col">
+      <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+        <option selected>Message Type</option>
+        <option value="1">BSM</option>
+        <option value="2">TIM</option>
+        <option value="3">MAP</option>
+        <option value="3">SPAT</option>
+    </select>
+    </div>
+    <div class="offset-2 col" style="position:relative">
+      <div class="row">
+          <label for="datetimepicker_start_datetime" style="text-align:right" class="col-4 col-form-label">Start DateTime</label>
+          <div class="col-8" >
+            <input id ="datetimepicker_start_datetime"  class="form-control" type="text" style="display:inline" placeholder="End DateTime" aria-label="default input example">
+          </div>
+      </div>
+    </div>
+    <div class="col" style="position:relative; margin-right: 15px">
+      <div class="row">
+            <label for="datetimepicker_end_datetime" style="text-align:right" class="col-4 col-form-label">End DateTime</label>
+            <div class="col-8" >
+              <input id ="datetimepicker_end_datetime"  class="form-control" type="text" style="display:inline" placeholder="Start DateTime" aria-label="default input example">
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-striped table-hover table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">Message ID</th>
+            <th scope="col">Value</th>
+            <th scope="col">TimeStamp</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td style="text-decoration: underline; color: #3FB1CE" class="pointer"  data-toggle="modal" data-target="#exampleModalCenter">View</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td style="text-decoration: underline; color: #3FB1CE; " class="pointer"  data-toggle="modal" data-target="#exampleModalCenter">View</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>N/A</td>
+            <td>N/A</td>
+            <td style="text-decoration: underline; color: #3FB1CE" class="pointer"  data-toggle="modal" data-target="#exampleModalCenter">View</td>
+          </tr>          
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Message Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Basic Safety Message: N/A<br>
+          BSM Core Data: N/A<br>
+          partII: N/A<br>
+        </p>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+</div>   
+   
+    <script src="{% static 'cav_fe/js/link_button.js' %} "></script>
+    <script src="{% static 'cav_fe/js/line_charts.js' %} "></script>
+    <script src="{% static 'cav_fe/js/gps_mapbox.js' %} "></script>
+  </body>
+</html>

@@ -1,0 +1,155 @@
+{
+  "name": "dsrc_message_frame.value",
+  "type": "record",
+  "namespace": "com.cav",
+  "fields": [
+    {
+      "name": "coreData",
+      "type": {
+        "name": "coreData",
+        "type": "record",
+        "fields": [
+          {
+            "name": "msgCnt",
+            "type": "int"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "secMark",
+            "type": "int"
+          },
+          {
+            "name": "lat",
+            "type": "int"
+          },
+          {
+            "name": "long",
+            "type": "int"
+          },
+          {
+            "name": "elev",
+            "type": "int"
+          },
+          {
+            "name": "accuracy",
+            "type": {
+              "name": "accuracy",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "semiMajor",
+                  "type": "int"
+                },
+                {
+                  "name": "semiMinor",
+                  "type": "int"
+                },
+                {
+                  "name": "orientation",
+                  "type": "int"
+                }
+              ]
+            }
+          },
+          {
+            "name": "transmission",
+            "type": "string"
+          },
+          {
+            "name": "speed",
+            "type": "int"
+          },
+          {
+            "name": "heading",
+            "type": "int"
+          },
+          {
+            "name": "angle",
+            "type": "int"
+          },
+          {
+            "name": "accelSet",
+            "type": {
+              "name": "accelSet",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "long",
+                  "type": "int"
+                },
+                {
+                  "name": "lat",
+                  "type": "int"
+                },
+                {
+                  "name": "vert",
+                  "type": "int"
+                },
+                {
+                  "name": "yaw",
+                  "type": "int"
+                }
+              ]
+            }
+          },
+          {
+            "name": "brakes",
+            "type": {
+              "name": "brakes",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "wheelBrakes",
+                  "type": {
+                    "type": "array",
+                    "items": "int"
+                  }
+                },
+                {
+                  "name": "traction",
+                  "type": "string"
+                },
+                {
+                  "name": "abs",
+                  "type": "string"
+                },
+                {
+                  "name": "scs",
+                  "type": "string"
+                },
+                {
+                  "name": "brakeBoost",
+                  "type": "string"
+                },
+                {
+                  "name": "auxBrakes",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "name": "size",
+            "type": {
+              "name": "size",
+              "type": "record",
+              "fields": [
+                {
+                  "name": "width",
+                  "type": "int"
+                },
+                {
+                  "name": "length",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

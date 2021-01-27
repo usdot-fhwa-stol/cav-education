@@ -7,5 +7,5 @@ from . import views
 urlpatterns = [
     #path('', views.index, name='index'),
     path('', views.index, name='index'),
-    path('<int:question_id>/', views.detail, name='detail')
+    path('<int:user_id>/', views.detail, name='detail')
 ]

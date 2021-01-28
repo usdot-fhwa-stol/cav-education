@@ -1,4 +1,9 @@
 FROM python:3
+
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.name="CAV"
+LABEL org.label-schema.vendor="Leidos"
+
 ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 COPY requirements.txt /code/

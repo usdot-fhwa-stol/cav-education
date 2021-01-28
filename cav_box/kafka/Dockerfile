@@ -1,6 +1,10 @@
 # set base image (host OS)
 FROM python:3.8
 
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.name="CAV"
+LABEL org.label-schema.vendor="Leidos"
+
 # set the working directory in the container
 WORKDIR /code
 

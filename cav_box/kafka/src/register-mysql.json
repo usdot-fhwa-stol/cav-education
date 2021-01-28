@@ -1,0 +1,13 @@
+{
+    "name": "jdbc_source_mysql_01",
+    "config": {
+            "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+            "connection.url": "jdbc:mysql://mysql:3306/cav",
+            "connection.user": "root",
+            "connection.password": "Admin123",
+            "topics": "incomming_dsrc_message",
+            "mode":"bulk",
+            "poll.interval.ms" : 3600000,
+            "auto.create": "true"
+    }
+}

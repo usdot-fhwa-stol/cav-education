@@ -1,0 +1,9 @@
+{
+  "namespace": "cav",
+  "type": "record",
+  "name": "dsrc_message_frame.value",
+  "fields": [
+    {"name": "message_id", "type": ["int", "null"] },
+    {"name": "value", "type": ["string", "null"]}
+  ]
+}

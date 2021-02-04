@@ -2,7 +2,7 @@
 		var timeFormat = 'MM/DD/YYYY HH:mm';
 		var count = 0;
 		var isSetInterval = false;
-		const INTERVAL_SEC = 5;//2 seconds
+		const INTERVAL_SEC = 2;//2 seconds
 
 		function newDate(days) {
 			return moment().add(days, 'd').toDate();
@@ -57,7 +57,7 @@
 							round: 'second',
 							unit: 'second',
 							tooltipFormat: 'll HH:mm:ss',
-							stepSize: 5,
+							stepSize: 2,
 							displayFormats: {
 								'millisecond': 'MMM DD',
 							  'second': 'DD/MM HH:mm:ss',

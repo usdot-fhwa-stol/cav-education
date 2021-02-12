@@ -14,6 +14,7 @@ label{
 }
 a.navbar-brand{
     font-size: 20px !important;
+    vertical-align: middle;
 }
 button,canvas{
     font-size: 16px !important;
@@ -33,5 +34,22 @@ button,canvas{
 }
 .modal-body{
     word-wrap: break-word !important;
+}
+.nav-item,.navbar-light.navbar-nav.nav-link,.navbar li a{
+    color:white !important;
+    font-size: 20px !important;
+    border-radius:10px;
+}
+.navbar-item{
+    padding-top: 8px !important;
+}
+.navbar li{
+    display: inline-block;
+    border: solid 2px rgb(255, 255, 255) !important;
+    border-radius:10px ;
+}
+ .navbar li:hover{
+    background-color: rgb(129, 129, 129);
+    
 }
 

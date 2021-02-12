@@ -1,34 +1,8 @@
 
-		var timeFormat = 'MM/DD/YYYY HH:mm';
 		var count = 0;
 		var isSetInterval = false;
-		const INTERVAL_SEC = 2;//2 seconds
 
-		function newDate(days) {
-			return moment().add(days, 'd').toDate();
-		}
-
-		function newDateString(days) {
-			return moment().add(days, 'd').format(timeFormat);
-		}
-		function newSec(secs) {
-			return moment().add(secs, 'seconds').toDate();
-		}
-		function newMin(Mins) {
-			console.log(moment().add(Mins, 'minutes').toDate());
-			return moment().add(Mins, 'minutes').toDate();
-		}
-		function newHours(hours) {
-			console.log(moment().add(hours, 'hours').toDate());
-			return moment().add(hours, 'hours').toDate();
-		}
-		function current()
-		{
-			return moment().format();
-		}
-
-		var color = Chart.helpers.color;
-		var config = {
+		var config_live = {
 			type: 'line',
 			data: {
 				labels: [ ],
@@ -57,7 +31,7 @@
 							round: 'second',
 							unit: 'second',
 							tooltipFormat: 'll HH:mm:ss',
-							stepSize: 2,
+							stepSize: 5,
 							displayFormats: {
 								'millisecond': 'MMM DD',
 							  'second': 'DD/MM HH:mm:ss',
@@ -72,7 +46,7 @@
 						},
 						scaleLabel: {
 							display: true,
-							labelString: 'Date Time (5 secs)'
+							labelString: 'Date Time (Every 2 secs)'
 						}
 					}],
 					yAxes: [{
@@ -86,51 +60,52 @@
 			}
 		};
 
-		window.onload = function() {
-			var ctx = document.getElementById('real-time-canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
+		
+window.onload = function() {
+    var ctx = document.getElementById('real-time-canvas').getContext('2d');
+    window.myLine = new Chart(ctx, config_live);
 
-			// Create WebSocket connection.
-			let socket1 = new WebSocket('ws://localhost:1337');
+    // Create WebSocket connection.
+    let socket1 = new WebSocket('ws://localhost:1337');
 
-			// Connection opened
-			socket1.addEventListener('open', function (event) {
-				socket1.send('Connected to Websocket Server!');
-			});
+    // Connection opened
+    socket1.addEventListener('open', function (event) {
+        socket1.send('Connected to Websocket Server!');
+    });
 
-			// Listen for messages
-			socket1.addEventListener('message', function (event) {
-				// console.log(event.data.length);
-				// console.log(event.data.indexOf('{'));
-				// console.log(event.data.substr(event.data.indexOf('{'), event.data.length-event.data.indexOf('{')));
-				//let jsonStr=event.data.substr(event.data.indexOf('{'), event.data.length-event.data.indexOf('{'));
-				//let jsonObj = JSON.parse(jsonStr);
+    // Listen for messages
+    socket1.addEventListener('message', function (event) {
+        // console.log(event.data.length);
+        // console.log(event.data.indexOf('{'));
+        // console.log(event.data.substr(event.data.indexOf('{'), event.data.length-event.data.indexOf('{')));
+        //let jsonStr=event.data.substr(event.data.indexOf('{'), event.data.length-event.data.indexOf('{'));
+        //let jsonObj = JSON.parse(jsonStr);
 
-				console.log('Message from SERVER: ', event.data);
-				// console.log(jsonObj.messageId);
-				// console.log(jsonObj.value);
-				count++;
-				if(!isSetInterval){
-					isSetInterval = true;
-					setInterval(function(){
-						//display count
-						//push one count every minute number/min
-						if (config.data.datasets.length > 0) {
-							for (var index = 0; index < config.data.datasets.length; ++index) {
-									// config.data.labels.push(newMin(config.data.labels.length));
-									config.data.labels.push(newSec(0));
-									config.data.datasets[index].data.push(count);
-									//reset count
-									isSetInterval = false;
-									count=0;
-							}
-							window.myLine.update();
-						}						
-					}, INTERVAL_SEC * 1000);
-				}
-			});
+        console.log('Message from SERVER: ', event.data);
+        // console.log(jsonObj.messageId);
+        // console.log(jsonObj.value);
+        count++;
+        if(!isSetInterval){
+            isSetInterval = true;
+            setInterval(function(){
+                //display count
+                //push one count every minute number/min
+                if (config.data.datasets.length > 0) {
+                    for (var index = 0; index < config.data.datasets.length; ++index) {
+                            // config.data.labels.push(newMin(config.data.labels.length));
+                            config.data.labels.push(newSec(0));
+                            config.data.datasets[index].data.push(count);
+                            //reset count
+                            isSetInterval = false;
+                            count=0;
+                    }
+                    window.myLine.update();
+                }						
+            }, INTERVAL_SEC * 1000);
+        }
+    });
 
-		};
+};
 
 		
 		// document.getElementById('randomizeData').addEventListener('click', function() {

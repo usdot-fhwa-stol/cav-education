@@ -4,15 +4,15 @@ var config_history = {
 		labels: [ ],
 		datasets: 
 		[
-			{
-				label: 'BSM',
-				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-				borderColor: window.chartColors.blue,
-				fill: false,
-				data: [
-						// randomScalingFactor(),randomScalingFactor()
-					],
-			}					
+			// {
+			// 	label: 'BSM',
+			// 	backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+			// 	borderColor: window.chartColors.blue,
+			// 	fill: false,
+			// 	data: [
+			// 			// randomScalingFactor(),randomScalingFactor()
+			// 		],
+			// }					
 		]
 	},
 	options: {
@@ -87,7 +87,7 @@ $('#history-btn').click(function(){
 			console.log(config_history.data.datasets.length);
 			var colorName = colorNames[config_history.data.datasets.length % colorNames.length];
 			var newColor = window.chartColors[colorName];
-			BSMLineIndex = config_history.data.datasets.length;
+			BSMHistoryLineIndex= config_history.data.datasets.length;
 			var newDataset = {
 				label: this.value + (config_history.data.datasets.length),
 				borderColor: newColor,
@@ -103,10 +103,10 @@ $('#history-btn').click(function(){
 
 		}else{
 			//remove line
-			config_history.data.datasets.splice(BSMLineIndex, 1);// remove the label first
+			config_history.data.datasets.splice(BSMHistoryLineIndex, 1);// remove the label first
 		}
-		
-		window.myLineHistory.update();
+		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
+			window.myLineHistory.update();
 	});
 
 	document.getElementById('inlineCheckboxMAP').addEventListener('click', function() {
@@ -117,7 +117,7 @@ $('#history-btn').click(function(){
 			console.log(config_history.data.datasets.length);
 			var colorName = colorNames[config_history.data.datasets.length % colorNames.length];
 			var newColor = window.chartColors[colorName];
-			MAPLineIndex = config_history.data.datasets.length;
+			MAPHistoryLineIndex= config_history.data.datasets.length;
 			var newDataset = {
 				label: this.value + (config_history.data.datasets.length),
 				borderColor: newColor,
@@ -133,10 +133,10 @@ $('#history-btn').click(function(){
 
 		}else{
 			//remove line
-			config_history.data.datasets.splice(MAPLineIndex, 1);// remove the label first
+			config_history.data.datasets.splice(MAPHistoryLineIndex, 1);// remove the label first
 		}
-		
-		window.myLineHistory.update();
+		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
+			window.myLineHistory.update();
 	});
 
 	document.getElementById('inlineCheckboxSPAT').addEventListener('click', function() {
@@ -146,7 +146,7 @@ $('#history-btn').click(function(){
 		if($(this).prop("checked")){
 			var colorName = colorNames[config_history.data.datasets.length % colorNames.length];
 			var newColor = window.chartColors[colorName];
-			SPATLineIndex = config_history.data.datasets.length;
+			SPATHistoryLineIndex= config_history.data.datasets.length;
 			var newDataset = {
 				label: this.value+ (config_history.data.datasets.length),
 				borderColor: newColor,
@@ -162,10 +162,11 @@ $('#history-btn').click(function(){
 
 		}else{
 			//remove line
-			config_history.data.datasets.splice(SPATLineIndex, 1);// remove the label first
+			config_history.data.datasets.splice(SPATHistoryLineIndex, 1);// remove the label first
 		}
 		
-		window.myLineHistory.update();
+		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
+			window.myLineHistory.update();
 	});
 
 	document.getElementById('inlineCheckboxTIM').addEventListener('click', function() {
@@ -176,7 +177,7 @@ $('#history-btn').click(function(){
 			
 			var colorName = colorNames[config_history.data.datasets.length % colorNames.length];
 			var newColor = window.chartColors[colorName];
-			TIMLineIndex = config_history.data.datasets.length;
+			TIMHistoryLineIndex= config_history.data.datasets.length;
 			var newDataset = {
 				label: this.value + (config_history.data.datasets.length ),
 				borderColor: newColor,
@@ -192,10 +193,11 @@ $('#history-btn').click(function(){
 
 		}else{
 			//remove line
-			config_history.data.datasets.splice(TIMLineIndex, 1);// remove the label first
+			config_history.data.datasets.splice(TIMHistoryLineIndex, 1);// remove the label first
 		}
 		
-		window.myLineHistory.update();
+		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
+			window.myLineHistory.update();
 	});
 
 	//add data
@@ -230,7 +232,7 @@ $('#history-btn').click(function(){
 					}
 					
 				}
-				if(window.myLineHistory !='undefined')
+				if(window.myLineHistory!=null && window.myLineHistory!='undefined')
 					window.myLineHistory.update();
 			}
 		});

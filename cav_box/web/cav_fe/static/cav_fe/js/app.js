@@ -8,7 +8,7 @@ $(document).ready(function(){
         
 
         $('#real-time-btn').click(function(){
-            $('#graphMsgTypes').css('display','none');
+           // $('#graphMsgTypes').css('display','none');
             $('#real-time-canvas').css('display','');
             $('#history-canvas').css('display','none');
             $('#history_datetime_filters').css('display','none');
@@ -17,7 +17,7 @@ $(document).ready(function(){
         });
 
         $('#history-btn').click(function(){
-            $('#graphMsgTypes').css('display','inline-block');
+          //  $('#graphMsgTypes').css('display','inline-block');
             $('#real-time-canvas').css('display','none');
             $('#history-canvas').css('display','');
             $('#history_datetime_filters').css('display','');

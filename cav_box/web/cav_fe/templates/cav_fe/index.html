@@ -11,8 +11,6 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    {% comment %} <link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" >
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" /> {% endcomment %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -20,9 +18,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
   
-    {% comment %} <script src="{% static 'cav_fe/js/websocket_client.js' %} "></script> {% endcomment %}
-    {% comment %} <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
@@ -32,8 +27,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    
-    {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
 
@@ -65,9 +58,9 @@
           <div style="display:inline-block;width: 100%; background-color: white; padding:0px 5px ;">
           <div class="row">
               <div style="  text-align:left;margin-left:0px;margin-right:0px;" class="col-6">
-                <div id="graphMsgTypes" style="display: none;" >
+                <div id="graphMsgTypes" style="display: ;" >
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxBSM" value="BSM" checked>
+                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxBSM" value="BSM" >
                   <label class="form-check-label" for="inlineCheckboxBSM">BSM</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -85,12 +78,7 @@
               </div>
             </div>
             
-            <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">
-              {% comment %} <button id="randomizeData" class="btn btn-outline-primary">Random Data</button>
-              <button id="addDataset" class="btn btn-outline-primary">Add Dataset</button>
-              <button id="removeDataset" class="btn btn-outline-primary">Remove Dataset</button>
-              <button id="addData" class="btn btn-outline-primary">Add Data</button>
-              <button id="removeData" class="btn btn-outline-primary">Remove Data</button> {% endcomment %}              
+            <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">           
               <button id="real-time-btn" class="btn btn-outline-primary active">Real Time Data</button>
               <button id="history-btn" class="btn btn-outline-primary">History Data</button>
             </div>

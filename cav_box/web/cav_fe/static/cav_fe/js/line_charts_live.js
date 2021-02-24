@@ -127,10 +127,11 @@ window.onload = function() {
                 //display count
                 //push one count every minute number/min
 				console.log("config length: " + config_live.data.datasets.length);
+
+				//distribute data based on index
+				config_live.data.labels.push(newSec(0));
                 if (config_live.data.datasets.length > 0) {
                     for (var index = 0; index < config_live.data.datasets.length; ++index) {
-							//distribute data based on index
-							config_live.data.labels.push(newSec(0));
 							if(index == BSMLiveLineIndex)
 							{
 								console.log("update BSM data count. BSM index " + BSMLiveLineIndex);

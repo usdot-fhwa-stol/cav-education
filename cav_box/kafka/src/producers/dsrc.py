@@ -11,7 +11,7 @@ class Dsrc(Producer):
     key_schema = avro.load(f"{Path(__file__).parents[0]}/models/dsrc_message_key.json")
     value_schema = avro.load(f"{Path(__file__).parents[0]}/models/dsrc_message_value.json")
 
-    def __init__(self, message_id, value):
+    def __init__(self, message_id, value, payload):
 
         super().__init__(
             topic_name="incomming_dsrc_message",
@@ -23,6 +23,8 @@ class Dsrc(Producer):
 
         self.message_id = int(message_id)
         self.value = value
+        self.payload = payload
+        self.timestamp = self.time_millis()
 
     def run(self):
         try:
@@ -31,7 +33,9 @@ class Dsrc(Producer):
                 key={"timestamp": self.time_millis()},
                 value={
                     "message_id": self.message_id,
-                    "value": self.value
+                    "value": self.value,
+                    "payload": self.payload,
+                    "timestamp": self.timestamp
                 }
             )
         except Exception as e:
@@ -43,6 +47,9 @@ class Dsrc(Producer):
 
     def set_message_id(self, message_id):
         self.message_id = message_id
+
+    def set_payload(self, payload):
+        self.payload = payload
 
     def __str__(self):
         return "message_id | {:^5} | {:<30} | value : | {:^5} ".format(

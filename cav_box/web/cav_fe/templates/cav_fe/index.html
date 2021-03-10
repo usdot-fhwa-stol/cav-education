@@ -1,5 +1,6 @@
 
   {% load static %}
+  
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,8 +11,6 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    {% comment %} <link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" >
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" /> {% endcomment %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -19,9 +18,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
   
-    {% comment %} <script src="{% static 'cav_fe/js/websocket_client.js' %} "></script> {% endcomment %}
-    {% comment %} <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
@@ -31,72 +27,92 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    
-    {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
 
-    <script src="{% static 'cav_fe/js/app.js' %} "></script>
+    <script src="{% static 'cav_fe/js/parameters.js' %} "></script>
+    <script src="{% static 'cav_fe/js/custom_date.js' %} "></script>
   </head>
   <body>
-  <nav class="navbar navbar-light bg-light" style="background-color:rgba(175, 175, 175, 0.877) !important; ">
-    <div style="float: left; text-align: left; width: 100%;">
-      <a class="navbar-brand" style="color: white !important" href="#" >CAV Prototype</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:rgba(175, 175, 175, 0.877) !important;">
+    <div class="container-fluid" style="padding-left:0px">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left:0px">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item" style="color:white;">
+              <a class="nav-link " aria-current="page" href="#"  id="map-view-tab">Graph View</a>
+          </li>
+          <li class="nav-item" style="color:white;margin-left: 20px">
+              <a class="nav-link " aria-current="page" href="#" id="table-view-tab">Table View</a>
+          </li>        
+        </ul>      
+      </div>
     </div>
   </nav>
-  <div class="container-fluid" style="width: 100%">
-  <div class="row">
+
+  <div class="container-fluid" style="width: 100%;">
+  <div class="row" id="map-view">
     <div class="col-4" >              
         <div id='map' style='height:100%; width: 100%; background-color: white; padding:0px'></div>
     </div>
     <div class="col-8" >            
-          <div style="display:inline-block;width: 100%; background-color: white; padding:5px ;">
-            <div style=" display: inline-block; text-align:right; width: 100%;">
-              {% comment %} <button id="randomizeData" class="btn btn-outline-primary">Random Data</button>
-              <button id="addDataset" class="btn btn-outline-primary">Add Dataset</button>
-              <button id="removeDataset" class="btn btn-outline-primary">Remove Dataset</button>
-              <button id="addData" class="btn btn-outline-primary">Add Data</button>
-              <button id="removeData" class="btn btn-outline-primary">Remove Data</button> {% endcomment %}
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckboxBSM" value="BSM" checked>
-              <label class="form-check-label" for="inlineCheckboxBSM">BSM</label>
+          <div style="display:inline-block;width: 100%; background-color: white; padding:0px 5px ;">
+          <div class="row">
+              <div style="  text-align:left;margin-left:0px;margin-right:0px;" class="col-6">
+                <div id="graphMsgTypes" style="display: ;" >
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxBSM" value="BSM" >
+                  <label class="form-check-label" for="inlineCheckboxBSM">BSM</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxMAP" value="MAP">
+                  <label class="form-check-label" for="inlineCheckboxMAP">MAP</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxSPAT" value="SPAT">
+                  <label class="form-check-label" for="inlineCheckboxSPAT">SPAT</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxTIM" value="TIM">
+                  <label class="form-check-label" for="inlineCheckboxTIM">TIM</label>
+                </div>
+              </div>
             </div>
-             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckboxMAP" value="MAP">
-              <label class="form-check-label" for="inlineCheckboxMAP">MAP</label>
-            </div>
-             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckboxSPAT" value="SPAT">
-              <label class="form-check-label" for="inlineCheckboxSPAT">SPAT</label>
-            </div>
-             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckboxTIM" value="TIM">
-              <label class="form-check-label" for="inlineCheckboxTIM">TIM</label>
-            </div>
+            
+            <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">           
               <button id="real-time-btn" class="btn btn-outline-primary active">Real Time Data</button>
               <button id="history-btn" class="btn btn-outline-primary">History Data</button>
             </div>
+
+            <div id="history_datetime_filters" style="position:absolute;right:10px;display:none;text-align:right;top:45px">
+                <input id ="history_start_datetime"  type="text" style="display:inline;" placeholder="Start DateTime" title="No start datetime means start from now" aria-label="default input example">
+                <input id ="history_end_datetime"  type="text" style="display:inline" placeholder="End DateTime" title="No end datetime means until now" aria-label="default input example">
+                <button type="button" class="btn btn-success btn-sm" id="search_history_graph_data">Search</button>
+            </div>
+
+          </div>
+          
             <div style=" display: inline-block; width: 100%" id="real-time-canvas-wraper" >
               <canvas id="real-time-canvas" style="display: inline-block; height:600px" class="chartjs-render-monitor"></canvas>
             </div>
-            <div style=" display: inline-block; width: 100%" id="history-canvas-wraper" >
+            <div style="  width: 100%;margin-top:10px" id="history-canvas-wraper" >
               <canvas id="history-canvas" style="display: inline-block; display:none; " class="chartjs-render-monitor"></canvas>
             </div>
         </div>
     </div>
   </div>
-  <div class="row" style="background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px; margin-top: 20px">
-    <div class="col">
-        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-          <option selected>Message Type</option>
-          <option value="1">BSM</option>
-          <option value="2">TIM</option>
-          <option value="3">MAP</option>
-          <option value="3">SPAT</option>
+  <div class="row" id="table-view" style="display:none;background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px; ">
+    <!--Filters-->
+    <div class="col-2">
+        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="filter_msg_type">
+          <option selected value="">Message Type</option>
+          <option value="BasicSafetyMessage">BasicSafetyMessage</option>
+          <option value="TravelerInformationMessage">TravelerInformationMessage</option>
+          <option value="MAP">MAP</option>
+          <option value="SPAT">SPAT</option>
         </select>
     </div>
       
-    <div class="offset-2 col" style="position:relative;">
+    <div class="offset-3 col-3" style="position:relative;">
       <div class="row">
           <label for="datetimepicker_start_datetime" style="text-align:right" class="col-4 col-form-label">Start DateTime</label>
           <div class="col-8" >
@@ -104,7 +120,7 @@
           </div>
       </div>
     </div>
-    <div class="col" style="position:relative; margin-right: 15px">
+    <div class="col-3" style="position:relative; ">
       <div class="row">
             <label for="datetimepicker_end_datetime" style="text-align:right" class="col-4 col-form-label">End DateTime</label>
             <div class="col-8" >
@@ -112,38 +128,46 @@
             </div>
         </div>
     </div>
-  </div>
-  <div class="message table" style="background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px">
-    <div class="col">
-      <table class="table table-striped table-hover table-bordered">
-          <thead>
-          <tr>
-            <th scope="col" style="text-align:center">Message ID</th>
-            <th scope="col" style="text-align:center">Value</th>
-            <th scope="col" style="text-align:center">TimeStamp</th>
-            <th scope="col" style="text-align:center">Payload</th>
-          </tr>
-        </thead>
-        <tbody class="message body" id="message-body">
-            {% for msg in messages%}            
-            <tr>
-                <th scope="row">{{msg.messageId}}</th>
-                <td>{{msg.value}}</td>
-                <td>{{msg.timestamp}}</td>
-                <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>               
-            {% endfor%}
-        </tbody>
-      </table>
+    {% csrf_token %}
+    <div class="col-1" style="position:relative; ">
+      <button type="button" class="btn btn-success btn-lg" style="float:right;margin-top:0px;" id="table_filter_search">Search</button>
     </div>
-  </div>
 
+    <!--Table-->
+    <div class="message table col-12" style="background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px">
+      <div >
+        <table class="table table-striped table-hover table-bordered" id="message-table">
+            <thead>
+            <tr>
+              <th scope="col" style="text-align:center">Message ID</th>
+              <th scope="col" style="text-align:center">Value</th>
+              <th scope="col" style="text-align:center">TimeStamp</th>
+              <th scope="col" style="text-align:center">Payload</th>
+            </tr>
+          </thead>
+          <tbody class="message body" id="message-body">
+              {% for msg in messages%}            
+              <tr>
+                  <th scope="row">{{msg.messageId}}</th>
+                  <td>{{msg.value}}</td>
+                  <td>{{msg.timestamp}}</td>
+                  <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>               
+              {% endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
   <div id="modal-area"></div>
 
 </div>   
     <script type="text/babel" src="{% static 'cav_fe/js/table_row_view_detail.js' %} " ></script>
     <script type="text/babel" src="{% static 'cav_fe/js/table_row.js' %} " async></script>
     <script src="{% static 'cav_fe/js/link_button.js' %} "></script>
-    <script src="{% static 'cav_fe/js/line_charts.js' %} "></script>
+    <script src="{% static 'cav_fe/js/line_charts_live.js' %} "></script>
+    <script src="{% static 'cav_fe/js/line_charts_history.js' %} "></script>
     <script src="{% static 'cav_fe/js/gps_mapbox.js' %} "></script>
+    <script src="{% static 'cav_fe/js/app.js' %} "></script>
   </body>
 </html>

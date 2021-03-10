@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class incomming_dsrc_message(models.Model):
     id = models.AutoField(primary_key=True)

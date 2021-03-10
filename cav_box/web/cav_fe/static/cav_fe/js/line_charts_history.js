@@ -237,19 +237,3 @@ $('#history-btn').click(function(){
 			}
 		});
 
-		
-
-	// document.getElementById('removeDataset').addEventListener('click', function() {
-	// 	config.data.datasets.splice(0, 1);
-	// 	window.myLine.update();
-	// });
-
-	// document.getElementById('removeData').addEventListener('click', function() {
-	// 	config.data.labels.splice(-1, 1); // remove the label first
-
-	// 	config.data.datasets.forEach(function(dataset) {
-	// 		dataset.data.pop();
-	// 	});
-
-	// 	window.myLine.update();
-	// });

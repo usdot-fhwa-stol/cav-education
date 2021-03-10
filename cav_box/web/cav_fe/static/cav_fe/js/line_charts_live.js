@@ -101,23 +101,23 @@ window.onload = function() {
         console.log('Message from SERVER: ', event.data);
 		//var parser = new JSONParser();
 		var json = JSON.parse(event.data);
-        console.log('Value from SERVER: ', json.value);
-        console.log('Value from SERVER: ', json.value.length);
+        console.log('message_type from SERVER: ', json.message_type);
+        console.log('message_type from SERVER: ', json.message_type.length);
 		
-		console.log("count live data for " + json.value);
-		if(json.value.trim() == "BSM" || json.value.trim()=="BasicSafetyMessage")
+		console.log("count live data for " + json.message_type);
+		if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
 		{
 			++BSMLiveCount;
 		}
-		else if(json.value.trim() == "TIM" || json.value.trim()=="TravelerInformationMessage")
+		else if(json.message_type.trim() == "TIM" || json.message_type.trim()=="TravelerInformationMessage")
 		{
 			++TIMLiveCount; 
 		}
-		else if(json.value.trim() == "SPAT" ){
+		else if(json.message_type.trim() == "SPAT" ){
 			++SPATLiveCount;
 			console.log("SPAT count " + SPATLiveCount);
 		}
-		else if(json.value.trim() == "MAP" ){
+		else if(json.message_type.trim() == "MAP" ){
 			++MAPLiveCount; 
 		}
 

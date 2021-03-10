@@ -3,8 +3,11 @@ from datetime import datetime
 
 # Create your models here.
 from django.db import models
+
+
 class incomming_dsrc_message(models.Model):
-    messageId=models.CharField(max_length=255)
-    value=models.TextField(default="")
-    timestamp=models.DateTimeField(default=datetime.now,blank=True)
-    payload=models.TextField(default="")
+    id = models.AutoField(primary_key=True)
+    timestamp = models.CharField(max_length=100)
+    message_type = models.CharField(max_length=10, default="")
+    payload = models.CharField(max_length=4000)
+    original_message = models.CharField(max_length=4000, default="")

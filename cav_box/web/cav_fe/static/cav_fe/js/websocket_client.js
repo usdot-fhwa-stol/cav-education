@@ -15,5 +15,5 @@ socket.addEventListener('message', function (event) {
     let jsonStr=event.data.substr(event.data.indexOf('{'), event.data.length-event.data.indexOf('{'));
     let jsonObj = JSON.parse(jsonStr);
     console.log(jsonObj.messageId);
-    console.log(jsonObj.value);
+    console.log(jsonObj.message_type);
 });

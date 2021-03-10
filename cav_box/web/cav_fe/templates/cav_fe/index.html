@@ -140,7 +140,7 @@
             <thead>
             <tr>
               <th scope="col" style="text-align:center">Message ID</th>
-              <th scope="col" style="text-align:center">Value</th>
+              <th scope="col" style="text-align:center">Message Type</th>
               <th scope="col" style="text-align:center">TimeStamp</th>
               <th scope="col" style="text-align:center">Payload</th>
             </tr>
@@ -149,7 +149,7 @@
               {% for msg in messages%}            
               <tr>
                   <th scope="row">{{msg.messageId}}</th>
-                  <td>{{msg.value}}</td>
+                  <td>{{msg.message_type}}</td>
                   <td>{{msg.timestamp}}</td>
                   <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>               
               {% endfor%}

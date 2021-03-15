@@ -11,3 +11,6 @@ class incomming_dsrc_message(models.Model):
     message_type = models.CharField(max_length=10, default="")
     payload = models.CharField(max_length=4000)
     original_message = models.CharField(max_length=4000, default="")
+
+    class Meta:
+        db_table = 'incomming_dsrc_message'

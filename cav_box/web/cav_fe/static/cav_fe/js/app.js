@@ -4,7 +4,8 @@ $(document).ready(function(){
         $('#datetimepicker_start_datetime').datetimepicker(); 
         $('#history_end_datetime').datetimepicker();
         $('#history_start_datetime').datetimepicker();
-        $('#map-view-tab').css('background-color',' rgb(129, 129, 129)');
+        $('#map-view-tab').attr('style', 'color: white !important');
+        $('#table-view-tab').attr('style', 'color: grey !important');
         
 
         $('#real-time-btn').click(function(){
@@ -14,6 +15,19 @@ $(document).ready(function(){
             $('#history_datetime_filters').css('display','none');
             $(this).addClass('active');
             $('#history-btn').removeClass('active');
+            $('#clear_live_data_row').css('display','');
+        });
+
+        $('.clear_live_data_refresh').click(function(){
+            $(this).addClass('glyphicon-remove');
+            $(this).removeClass('glyphicon-refresh');
+            //Clear live line data - refresh icon
+            if(removeTIM_BSM_SPAT_MAP_data_live_line())
+            {
+                $('.clear_live_data_refresh').removeClass('glyphicon-remove');
+                $('.clear_live_data_refresh').addClass('glyphicon-refresh');
+            }
+
         });
 
         $('#history-btn').click(function(){
@@ -22,38 +36,37 @@ $(document).ready(function(){
             $('#history-canvas').css('display','');
             $('#history_datetime_filters').css('display','');
             $(this).addClass('active');
-            $('#real-time-btn').removeClass('active'); 
+            $('#real-time-btn').removeClass('active');
+            $('#clear_live_data_row').css('display','none');
         });
         
         //
         $('#map-view-tab').click(function(){
             // $(this).attr('style', 'color: black !important');
-            $(this).css('background-color',' rgb(129, 129, 129)');
+            $(this).attr('style', 'color: white !important');
             $('#map-view').css('display','');
             $('#table-view').css('display','none');
-            $('#table-view-tab').css('background-color','rgba(175, 175, 175, 0.877)');
-            $('#table-view-tab').attr('style', 'color: white !important');
+            $('#table-view-tab').css('color','white');
+            $('#table-view-tab').attr('style', 'color: grey !important');
         });
         
         $('#table-view-tab').click(function(){
             // $(this).attr('style', 'color: black !important');
-            $(this).css('background-color',' rgb(129, 129, 129)');
+            $(this).attr('style', 'color: white !important');
             $('#table-view').css('display','');
             $('#map-view').css('display','none');
-            $('#map-view-tab').css('background-color','rgba(175, 175, 175, 0.877)');
-            $('#map-view-tab').attr('style', 'color: white !important');
+            $('#map-view-tab').css('color','white');
+            $('#map-view-tab').attr('style', 'color: grey !important');
         });
+
     });
 
-    //Line charts
 
     //table filters
     $("#table_filter_search").on('click', function() {
     
        let datetimepicker_start_datetime_str = $("#datetimepicker_start_datetime").val();
        let datetimepicker_end_datetime_str = $("#datetimepicker_end_datetime").val();
-       let datetimepicker_start_datetime = new Date(datetimepicker_start_datetime_str);
-       let datetimepicker_end_datetime = new Date(datetimepicker_end_datetime_str);
        let filter_msg_type = $("#filter_msg_type option:selected").val();
 
         
@@ -101,10 +114,10 @@ $(document).ready(function(){
             console.log(fields);
             $("#message-table tbody").prepend(
                     `<tr>
-                    <td>${fields["messageId"]||""}</td>
-                    <td>${fields["value"]||""}</td>
+                    <td>${fields["message_type"]||""}</td>
                     <td>${fields["timestamp"]||""}</td>
                     <td>${fields["payload"]||""}</td>
+                    <td>${fields["original_message"]||""}</td>
                     </tr>`
                 )
         })

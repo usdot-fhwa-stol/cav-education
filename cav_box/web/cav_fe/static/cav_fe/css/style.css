@@ -12,10 +12,6 @@ label{
     font-weight: normal !important;
     display: inline !important;
 }
-a.navbar-brand{
-    font-size: 20px !important;
-    vertical-align: middle;
-}
 button,canvas{
     font-size: 16px !important;
 }
@@ -35,11 +31,45 @@ button,canvas{
 .modal-body{
     word-wrap: break-word !important;
 }
+ul li{
+    display: inline-flex;
+}
+.input-color {
+    position: relative;
+}
+.input-color input {
+    padding-left: 20px;
+    width: 70px;
+}
+.input-color .color-box {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: #ccc;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
 .nav-item,.navbar-light.navbar-nav.nav-link,.navbar li a{
     color:white !important;
     font-size: 20px !important;
     border-radius:10px;
 }
+.btn-link.active
+{
+   text-decoration: underline !important;
+   font-weight: bolder;
+}
+.btn-link{
+    text-decoration: none !important;
+}
+/***
+
+a.navbar-brand{
+    font-size: 20px !important;
+    vertical-align: middle;
+}
+
 .navbar-item{
     padding-top: 8px !important;
 }
@@ -52,4 +82,5 @@ button,canvas{
     background-color: rgb(129, 129, 129);
     
 }
+***/
 

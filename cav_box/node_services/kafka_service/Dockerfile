@@ -7,7 +7,7 @@ LABEL org.label-schema.vendor="Leidos"
 ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 COPY . /code/
-RUN npm install .
+RUN npm install
 
 # Add docker-compose-wait tool -------------------
 ENV WAIT_VERSION 2.7.2

@@ -3,17 +3,7 @@ var config_history = {
 	data: {
 		labels: [ ],
 		datasets: 
-		[
-			// {
-			// 	label: 'BSM',
-			// 	backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-			// 	borderColor: window.chartColors.blue,
-			// 	fill: false,
-			// 	data: [
-			// 			// randomScalingFactor(),randomScalingFactor()
-			// 		],
-			// }					
-		]
+		[]
 	},
 	options: {
 		title: {

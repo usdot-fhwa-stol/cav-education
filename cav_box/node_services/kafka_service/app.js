@@ -9,6 +9,7 @@ var Client = kafka.KafkaClient;
 var DSRC_TOPIC_NAME = "incomming_dsrc_message";
 var WEBSOCKET_PORT = 1337;
 var curRequestStartingOffset=0;
+var kafkaHost = process.env.BOOTSTRAP_SERVERS
 
 const app = express();
 const port = 8080;
@@ -38,43 +39,50 @@ var server = http.createServer(function(request, response) {
         var clients = [];
         var index = clients.push(connection) - 1;
 
-        var client = new Client({ kafkaHost: 'localhost:9092' });
-        var topics = [{ topic: DSRC_TOPIC_NAME,partition: 0, time: Date.now(), maxNum: 1}];
-        var options = {
-                        autoCommit: true, 
-                        fetchMaxWaitMs: 1000, 
-                        groupId: 'prototype_msg',
-                        fetchMaxBytes: 1024 * 1024 ,
-                        // commitOffsetsOnFirstJoin: true, 
-                        // fromBeginning: false, 
-                         fromOffset: 'latest'
-                    };
+        var client = new Client({ kafkaHost: kafkaHost });
+        if(client !=null && client != 'undefined')
+        {
+            var topics = [{ topic: DSRC_TOPIC_NAME,partition: 0, time: Date.now(), maxNum: 1}];
+            var options = {
+                            autoCommit: true, 
+                            fetchMaxWaitMs: 1000, 
+                            groupId: 'prototype_msg',
+                            fetchMaxBytes: 1024 * 1024 ,
+                            // commitOffsetsOnFirstJoin: true, 
+                            // fromBeginning: false, 
+                            fromOffset: 'latest'
+                        };
+    
+            //get latest offset
+            var offset = new kafka.Offset(client);
+    
+            offset.fetch([{topic: DSRC_TOPIC_NAME, partition: 0, time: -1}],function(err,data){
+                curRequestStartingOffset = data[DSRC_TOPIC_NAME]['0'][0];
+            });
+    
+            var consumer = new Consumer(client, topics, options);
+    
+            consumer.on('message', function (message) {
+                console.log(message);
+                console.log("last request max digested offset: " + (curRequestStartingOffset - 1));
+    
+                //only send the latest offset message to web socket
+                if(message.offset >= curRequestStartingOffset){
+                    console.log( message.offset);
+                    console.log( message.value);
+                    clients[0].sendUTF(message.value);
+                }
+    
+            });
+    
+            consumer.on('error', function (err) {
+                console.log('error', err);
+            });
 
-        //get latest offset
-        var offset = new kafka.Offset(client);
-
-        offset.fetch([{topic: DSRC_TOPIC_NAME, partition: 0, time: -1}],function(err,data){
-            curRequestStartingOffset = data[DSRC_TOPIC_NAME]['0'][0];
-        });
-
-        var consumer = new Consumer(client, topics, options);
-
-        consumer.on('message', function (message) {
-            console.log(message);
-            console.log("last request max digested offset: " + (curRequestStartingOffset - 1));
-
-            //only send the latest offset message to web socket
-            if(message.offset >= curRequestStartingOffset){
-                console.log( message.offset);
-                console.log( message.value);
-                clients[0].sendUTF(message.value);
-            }
-
-        });
-
-        consumer.on('error', function (err) {
-            console.log('error', err);
-        });
+        }else{
+          console.log('Kafka client is not found.');
+        }
+        
 
         connection.on('close', function(connection) {
             // close user connection

@@ -59,7 +59,6 @@ $('#history-btn').click(function(){
 			addHistoryLine(this);
 		}else{
 			//remove line
-			//config_history.data.datasets.splice(BSMHistoryLineIndex, 1);// remove the label first
 		    removeArryElementbyName(config_history.data.datasets, "BSM");
 		}
 		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
@@ -74,7 +73,6 @@ $('#history-btn').click(function(){
 
 		}else{
 			//remove line
-			//config_history.data.datasets.splice(MAPHistoryLineIndex, 1);// remove the label first
 		    removeArryElementbyName(config_history.data.datasets, "MAP");
 		}
 		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
@@ -88,7 +86,6 @@ $('#history-btn').click(function(){
 			addHistoryLine(this);
 		}else{
 			//remove line
-			//config_history.data.datasets.splice(SPATHistoryLineIndex, 1);// remove the label first
 		    removeArryElementbyName(config_history.data.datasets, "SPAT");
 		}
 		
@@ -103,7 +100,6 @@ $('#history-btn').click(function(){
 			addHistoryLine(this);
 		}else{
 			//remove line
-			//config_history.data.datasets.splice(TIMHistoryLineIndex, 1);// remove the label first
 		    removeArryElementbyName(config_history.data.datasets, "TIM");
 		}
 

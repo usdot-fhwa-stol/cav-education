@@ -1,91 +1,92 @@
 
-  {% load static %}
-  
+
 <!DOCTYPE html>
+{% load static %}
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Add React in One Minute</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'thirdparty/css/Chart.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'cav_fe/css/style.css' %}">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.css' rel='stylesheet' />
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" charset="utf-8"></script>
-    <script src="{% static 'thirdparty/js/moment.js' %} "></script>
-    <script src="{% static 'thirdparty/js/Chart.js' %} "></script>
-    <script src="{% static 'thirdparty/js/utils.js' %} "></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.1/mapbox-gl.js'></script>
-
-    <script src="{% static 'cav_fe/js/parameters.js' %} "></script>
-    <script src="{% static 'cav_fe/js/custom_date.js' %} "></script>
-  </head>
+    {% include "cav_fe/header.html" %}
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color:rgba(175, 175, 175, 0.877) !important;">
-    <div class="container-fluid" style="padding-left:0px">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left:0px">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item" style="color:white;">
-              <a class="nav-link " aria-current="page" href="#"  id="map-view-tab">Graph View</a>
-          </li>
-          <li class="nav-item" style="color:white;margin-left: 20px">
-              <a class="nav-link " aria-current="page" href="#" id="table-view-tab">Table View</a>
-          </li>        
-        </ul>      
-      </div>
-    </div>
-  </nav>
+  {% include "cav_fe/nav.html" %}
+
 
   <div class="container-fluid" style="width: 100%;">
   <div class="row" id="map-view">
-    <div class="col-4" >              
-        <div id='map' style='height:100%; width: 100%; background-color: white; padding:0px'></div>
-    </div>
+
+        <div class="col-4" >
+
+            <div id='map' style='height:100%; width: 100%; background-color: white; padding:0px'></div>
+
+            <ul>
+                <li>
+                    <div class="input-color">
+                        <input type="text" value="MAP"  readonly/>
+                        <div class="color-box" style="background-color: #ffbf00;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-color">
+                        <input type="text" value="TIM" readonly/>
+                        <div class="color-box" style="background-color: #3FB1CE;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-color">
+                        <input type="text" value="BSM" readonly/>
+                        <div class="color-box" style="background-color: #ff0000;"></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="input-color">
+                        <input type="text" value="SPAT" readonly/>
+                        <div class="color-box" style="background-color: #80ff00;"></div>
+                    </div>
+                </li>
+            </ul>
+    </div> <!---End of Map---->
+
     <div class="col-8" >            
           <div style="display:inline-block;width: 100%; background-color: white; padding:0px 5px ;">
           <div class="row">
               <div style="  text-align:left;margin-left:0px;margin-right:0px;" class="col-6">
                 <div id="graphMsgTypes" style="display: ;" >
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxBSM" value="BSM" >
+                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxBSM" value="BSM" checked>
                   <label class="form-check-label" for="inlineCheckboxBSM">BSM</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxMAP" value="MAP">
+                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxMAP" value="MAP" checked>
                   <label class="form-check-label" for="inlineCheckboxMAP">MAP</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxSPAT" value="SPAT">
+                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxSPAT" value="SPAT" checked>
                   <label class="form-check-label" for="inlineCheckboxSPAT">SPAT</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" type="checkbox" id="inlineCheckboxTIM" value="TIM">
+                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxTIM" value="TIM" checked>
                   <label class="form-check-label" for="inlineCheckboxTIM">TIM</label>
                 </div>
               </div>
             </div>
             
-            <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">           
-              <button id="real-time-btn" class="btn btn-outline-primary active">Real Time Data</button>
-              <button id="history-btn" class="btn btn-outline-primary">History Data</button>
+            <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">
+                <div class="row">
+                 <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">
+                  </div>
+                  <div style=" display: inline-block; float:right; text-align:right;margin-left:0px;margin-right:0px; " class="col-6">
+                      <button id="real-time-btn" class="btn btn-link active">Real Time Data</button>
+                      <button id="history-btn" class="btn btn-link">History Data</button>
+                  </div>
+
+                </div>
+                <div class="row" id="clear_live_data_row">
+                    <button class="btn btn-primary" style="display: contents;color:#337ab7; " id="clear_live_data">
+                        <span class="glyphicon glyphicon-refresh clear_live_data_refresh">Clear</span>
+                    </button>
+                </div>
             </div>
 
             <div id="history_datetime_filters" style="position:absolute;right:10px;display:none;text-align:right;top:45px">
-                <input id ="history_start_datetime"  type="text" style="display:inline;" placeholder="Start DateTime" title="No start datetime means start from now" aria-label="default input example">
-                <input id ="history_end_datetime"  type="text" style="display:inline" placeholder="End DateTime" title="No end datetime means until now" aria-label="default input example">
+                Start: <input id ="history_start_datetime"  type="text" style="display:inline;" placeholder="Start DateTime" title="No start datetime means start from now" aria-label="default input example">
+                End: <input id ="history_end_datetime"  type="text" style="display:inline" placeholder="End DateTime" title="No end datetime means until now" aria-label="default input example">
                 <button type="button" class="btn btn-success btn-sm" id="search_history_graph_data">Search</button>
             </div>
 
@@ -98,15 +99,16 @@
               <canvas id="history-canvas" style="display: inline-block; display:none; " class="chartjs-render-monitor"></canvas>
             </div>
         </div>
-    </div>
+    </div><!----- End of Chart --->
   </div>
+
   <div class="row" id="table-view" style="display:none;background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px; ">
     <!--Filters-->
     <div class="col-2">
         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="filter_msg_type">
           <option selected value="">Message Type</option>
-          <option value="BasicSafetyMessage">BasicSafetyMessage</option>
-          <option value="TravelerInformationMessage">TravelerInformationMessage</option>
+          <option value="BSM">BSM</option>
+          <option value="TIM">TIM</option>
           <option value="MAP">MAP</option>
           <option value="SPAT">SPAT</option>
         </select>
@@ -139,19 +141,19 @@
         <table class="table table-striped table-hover table-bordered" id="message-table">
             <thead>
             <tr>
-              <th scope="col" style="text-align:center">Message ID</th>
-              <th scope="col" style="text-align:center">Value</th>
+              <th scope="col" style="text-align:center">Message Type</th>
               <th scope="col" style="text-align:center">TimeStamp</th>
               <th scope="col" style="text-align:center">Payload</th>
+              <th scope="col" style="text-align:center">Original Message</th>
             </tr>
           </thead>
           <tbody class="message body" id="message-body">
               {% for msg in messages%}            
               <tr>
-                  <th scope="row">{{msg.messageId}}</th>
-                  <td>{{msg.value}}</td>
+                  <td>{{msg.message_type}}</td>
                   <td>{{msg.timestamp}}</td>
-                  <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>               
+                  <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>
+                  <td>{{msg.original_message}}</td>
               {% endfor%}
           </tbody>
         </table>
@@ -161,10 +163,7 @@
   </div>
   <div id="modal-area"></div>
 
-</div>   
-    <script type="text/babel" src="{% static 'cav_fe/js/table_row_view_detail.js' %} " ></script>
-    <script type="text/babel" src="{% static 'cav_fe/js/table_row.js' %} " async></script>
-    <script src="{% static 'cav_fe/js/link_button.js' %} "></script>
+</div>
     <script src="{% static 'cav_fe/js/line_charts_live.js' %} "></script>
     <script src="{% static 'cav_fe/js/line_charts_history.js' %} "></script>
     <script src="{% static 'cav_fe/js/gps_mapbox.js' %} "></script>

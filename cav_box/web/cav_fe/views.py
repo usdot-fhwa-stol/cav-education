@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.http import JsonResponse
+from django.db.models import Q
 from django.core import serializers
 
 from django.shortcuts import render
@@ -14,32 +14,37 @@ def index(request):
     return render(request, 'cav_fe/index.html', messageDict)
 
 def detail(request,question_id):
-    context = {'user_id': user_id}
+    context = {'question_id': question_id}
     return render(request, 'cav_fe/index.html', context)
 
 def postMessageFilters(request):
     datetimepicker_end_datetime_str = request.POST.get('datetimepicker_end_datetime_str')
-    end_date = datetime.datetime.strptime(datetimepicker_end_datetime_str, '%m/%d/%Y %H:%M %p')
-   
+    end_date = datetime.datetime.strptime(datetimepicker_end_datetime_str, '%m/%d/%Y %I:%M %p')
+
     datetimepicker_start_datetime_str = request.POST.get('datetimepicker_start_datetime_str')
-    start_date = datetime.datetime.strptime(datetimepicker_end_datetime_str, '%m/%d/%Y %H:%M %p')
-    
+    start_date = datetime.datetime.strptime(datetimepicker_start_datetime_str, '%m/%d/%Y %I:%M %p')
+
     filter_msg_type = request.POST.get('filter_msg_type')
-    
+
     resultSet = incomming_dsrc_message.objects.all()
 
+    # filter_msg_type is a string containing commas
     if len(filter_msg_type) > 0:
-        print(len(filter_msg_type))
-        resultSet = resultSet.filter(value=filter_msg_type)
+        filter_msg_type_array = filter_msg_type.strip(',').split(',')
+        resultSet = resultSet.filter(Q(message_type__in=filter_msg_type_array) | Q(message_type=filter_msg_type))
+        print(filter_msg_type_array)
 
     if len(datetimepicker_start_datetime_str) > 0 :
         print(len(datetimepicker_start_datetime_str))
-       # resultSet = resultSet.filter(timestamp__gte=start_date)
+        print(start_date)
+        resultSet = resultSet.filter(timestamp__gte=start_date)
 
     if len(datetimepicker_start_datetime_str) > 0:
         print(len(datetimepicker_start_datetime_str))
-      #  resultSet = resultSet.filter(timestamp__gte=end_date)
-        
-    print(request.POST)
-    data = serializers.serialize('json',resultSet,fields=('messageId','value','timestamp','payload'))
+        print(end_date)
+        resultSet = resultSet.filter(timestamp__lte=end_date)
+
+    # print(request.POST)
+    print(resultSet)
+    data = serializers.serialize('json',resultSet,fields=('message_type','timestamp','payload','original_message'))
     return HttpResponse(data, content_type="application/json")

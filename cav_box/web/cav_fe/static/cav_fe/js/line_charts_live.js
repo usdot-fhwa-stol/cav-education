@@ -31,7 +31,7 @@ var config_live = {
 					round: 'second',
 					unit: 'second',
 					tooltipFormat: 'll HH:mm:ss',
-					stepSize: 5,
+					stepSize: INTERVAL_SECS,
 					displayFormats: {
 						'millisecond': 'MMM DD',
 						'second': 'DD/MM HH:mm:ss',
@@ -46,14 +46,14 @@ var config_live = {
 				},
 				scaleLabel: {
 					display: true,
-					labelString: 'Date Time (Every 10 secs)'
+					labelString: 'Date Time (Refresh every '+INTERVAL_SECS+' secs, x-axis step '+(INTERVAL_SECS ) +' secs)'
 				}
 			}],
 			yAxes: [{
 				scaleLabel: {
 					display: true,
 					labelString: 'Message Count',
-					stepSize: 5
+					stepSize: 10
 				}
 			}]
 		},
@@ -70,135 +70,91 @@ window.onload = function() {
 
     // Connection opened
     socket1.addEventListener('open', function (event) {
-        socket1.send('Connected to Websocket Server!');
+        socket1.send('Connected to Websocket -1 Server!');
     });
 
-    // Listen for messages
-    // socket1.addEventListener('message', function (event) {
-    //     console.log('Message from SERVER: ', event.data);
-    //     count++;
-    //     if(!isSetInterval){
-    //         isSetInterval = true;
-    //         setInterval(function(){
-    //             //display count
-    //             //push one count every minute number/min
-    //             if (config_live.data.datasets.length > 0) {
-    //                 for (var index = 0; index < config_live.data.datasets.length; ++index) {
-    //                         // config_live.data.labels.push(newMin(config_live.data.labels.length));
-    //                         config_live.data.labels.push(newSec(0));
-    //                         config_live.data.datasets[index].data.push(count);
-    //                         //reset count
-    //                         isSetInterval = false;
-    //                         count=0;
-    //                 }
-    //                 window.myLine.update();
-    //             }						
-    //         }, INTERVAL_SEC * 1000);
-    //     }
-    // });
-
 	socket1.addEventListener('message', function (event) {
-        console.log('Message from SERVER: ', event.data);
-		//var parser = new JSONParser();
+        console.log('line_chart_live.js - Message from SERVER: ', event.data);
 		var json = JSON.parse(event.data);
-        console.log('Value from SERVER: ', json.value);
-        console.log('Value from SERVER: ', json.value.length);
-		
-		console.log("count live data for " + json.value);
-		if(json.value.trim() == "BSM" || json.value.trim()=="BasicSafetyMessage")
+		console.log("count live data for " + json.message_type);
+
+		if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
 		{
 			++BSMLiveCount;
 		}
-		else if(json.value.trim() == "TIM" || json.value.trim()=="TravelerInformationMessage")
+		else if(json.message_type.trim() == "TIM" || json.message_type.trim()=="TravelerInformationMessage")
 		{
 			++TIMLiveCount; 
 		}
-		else if(json.value.trim() == "SPAT" ){
+		else if(json.message_type.trim() == "SPAT" ){
 			++SPATLiveCount;
 			console.log("SPAT count " + SPATLiveCount);
 		}
-		else if(json.value.trim() == "MAP" ){
+		else if(json.message_type.trim() == "MAP" ){
 			++MAPLiveCount; 
 		}
 
-        if(!isSetInterval){
-            isSetInterval = true;
-            setInterval(function(){
-                //display count
-                //push one count every minute number/min
-				console.log("config length: " + config_live.data.datasets.length);
+    });//end of socket message listener
 
-				//distribute data based on index
-				config_live.data.labels.push(newSec(0));
-                if (config_live.data.datasets.length > 0) {
-                    for (var index = 0; index < config_live.data.datasets.length; ++index) {
-							if(index == BSMLiveLineIndex)
-							{
-								console.log("update BSM data count. BSM index " + BSMLiveLineIndex);
-								console.log("BSM count " + BSMLiveCount);
-								config_live.data.datasets[index].data.push(BSMLiveCount);
-							}
-							else if(index == TIMLiveLineIndex)
-							{
-								console.log("update TIM data count. TIM index " + TIMLiveLineIndex);
-								config_live.data.datasets[index].data.push(TIMLiveCount);
-							}
-							else if(index == SPATLiveLineIndex)
-							{
-								console.log("update SPAT data count; SPAT index " + SPATLiveLineIndex);
-								console.log("SPAT count " + SPATLiveCount);
-								config_live.data.datasets[index].data.push(SPATLiveCount);
-							}
-							else if (index == MAPLiveLineIndex)
-							{
-								console.log("update MAP data count. MAP index " + MAPLiveLineIndex);
-								config_live.data.datasets[index].data.push(MAPLiveCount);
-							}
-                    }
-                    if(window.myLine!=null && window.myLine!='undefined')
-					 window.myLine.update();
+    //update live chart
+    setInterval(()=>{
+        let interval =  new Promise((resolve,reject)=>{
+             resolve('waited for ' + INTERVAL_SECS +' secs');
+        });
+
+        interval.then((data)=>{
+            console.log('data '+ data);
+            console.log("config datasets length: " + config_live.data.datasets.length);
+
+            if (config_live.data.datasets.length > 0 && config_live.data.labels !=null && config_live.data.labels) {
+                //update date at y-axis
+                updateArryElementDataCountbyName(config_live.data.datasets,"BSM",BSMLiveCount);
+                BSMLiveCount = 0;
+
+                updateArryElementDataCountbyName(config_live.data.datasets,"TIM",TIMLiveCount);
+                TIMLiveCount = 0;
+
+                updateArryElementDataCountbyName(config_live.data.datasets,"SPAT",SPATLiveCount);
+                SPATLiveCount = 0;
+
+                updateArryElementDataCountbyName(config_live.data.datasets,"MAP",MAPLiveCount);
+                MAPLiveCount = 0;
+
+                //update x-axis
+                console.log("data labels length: "+config_live.data.labels.length)
+                config_live.data.labels.push(newSec(0));
+
+                //data (in each dataset) length equals to data labels length. data (in each dataset) max length = MAX_LIVE_DATASETS_LENGTH
+                if(config_live.data.labels.length > MAX_LIVE_DATASETS_LENGTH)
+                {
+                    //pop the oldest label data and  datasets data
+                    console.log("remove data. Reach max data labels length: "+config_live.data.labels.length)
+                    config_live.data.labels.shift();
+                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"TIM");
+                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"BSM");
+                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"SPAT");
+                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"MAP");
                 }
-				
-				//reset count
-				isSetInterval = false;
-				BSMLiveCount = 0;
-				TIMLiveCount = 0;
-				SPATLiveCount = 0;
-				MAPLiveCount = 0;						
-            }, INTERVAL_SEC * 1000);
-        }
-    });
+                if(window.myLine!=null && window.myLine!='undefined')
+                 window.myLine.update();
+            }
+        });
+
+    }, INTERVAL_SECS * 1000);
+
 };
 
 //Checkboxes to show/hide lines && addd/remove dataset
 var colorNames = Object.keys(window.chartColors);
 
 document.getElementById('inlineCheckboxBSM').addEventListener('click', function() {
-	console.log("searching...");
-
 	//add line
 	if($(this).prop("checked")){
-		console.log(config_live.data.datasets.length);
-		var colorName = colorNames[config_live.data.datasets.length % colorNames.length];
-		var newColor = window.chartColors[colorName];
-		BSMLiveLineIndex = config_live.data.datasets.length;
-		var newDataset = {
-			label: this.value + (config_live.data.datasets.length),
-			borderColor: newColor,
-			backgroundColor: color(newColor).alpha(0.5).rgbString(),
-			data: [],
-		};
-
-		for (var index = 0; index < config_live.data.labels.length; ++index) {
-			// newDataset.data.push(randomScalingFactor());
-			newDataset.data.push(0);
-		}
-
-		config_live.data.datasets.push(newDataset);
-
+		addLiveLine(this);
 	}else{
 		//remove line
-		config_live.data.datasets.splice(BSMLiveLineIndex, 1);// remove the label first
+		//config_live.data.datasets.splice(BSMLiveLineIndex, 1);// remove the label first
+		removeArryElementbyName(config_live.data.datasets, "BSM");
 	}
 	
 	if(window.myLine!=null && window.myLine!='undefined')
@@ -210,27 +166,12 @@ document.getElementById('inlineCheckboxMAP').addEventListener('click', function(
 
 	//add line
 	if($(this).prop("checked")){
-		console.log(config_live.data.datasets.length);
-		var colorName = colorNames[config_live.data.datasets.length % colorNames.length];
-		var newColor = window.chartColors[colorName];
-		MAPLiveLineIndex = config_live.data.datasets.length;
-		var newDataset = {
-			label: this.value + (config_live.data.datasets.length),
-			borderColor: newColor,
-			backgroundColor: color(newColor).alpha(0.5).rgbString(),
-			data: [],
-		};
-
-		for (var index = 0; index < config_live.data.labels.length; ++index) {
-			//newDataset.data.push(randomScalingFactor());
-			newDataset.data.push(0);
-		}
-
-		config_live.data.datasets.push(newDataset);
+			addLiveLine(this);
 
 	}else{
 		//remove line
-		config_live.data.datasets.splice(MAPLiveLineIndex, 1);// remove the label first
+		//config_live.data.datasets.splice(MAPLiveLineIndex, 1);// remove the label first
+		removeArryElementbyName(config_live.data.datasets, "MAP");
 	}
 	
 	if(window.myLine!=null && window.myLine!='undefined')
@@ -238,30 +179,14 @@ document.getElementById('inlineCheckboxMAP').addEventListener('click', function(
 });
 
 document.getElementById('inlineCheckboxSPAT').addEventListener('click', function() {
-	console.log("searching...");
 
 	//add line
 	if($(this).prop("checked")){
-		var colorName = colorNames[config_live.data.datasets.length % colorNames.length];
-		var newColor = window.chartColors[colorName];
-		SPATLiveLineIndex = config_live.data.datasets.length;
-		var newDataset = {
-			label: this.value+ (config_live.data.datasets.length),
-			borderColor: newColor,
-			backgroundColor: color(newColor).alpha(0.5).rgbString(),
-			data: [],
-		};
-
-		for (var index = 0; index < config_live.data.labels.length; ++index) {
-			// newDataset.data.push(randomScalingFactor());
-			newDataset.data.push(0);
-		}
-
-		config_live.data.datasets.push(newDataset);
-
+		addLiveLine(this);
 	}else{
 		//remove line
-		config_live.data.datasets.splice(SPATLiveLineIndex, 1);// remove the label first
+		//config_live.data.datasets.splice(SPATLiveLineIndex, 1);// remove the label first
+		removeArryElementbyName(config_live.data.datasets, "SPAT");
 	}
 	
 	if(window.myLine!=null && window.myLine!='undefined')
@@ -269,16 +194,49 @@ document.getElementById('inlineCheckboxSPAT').addEventListener('click', function
 });
 
 document.getElementById('inlineCheckboxTIM').addEventListener('click', function() {
-	console.log("searching...");
 
 	//add line
 	if($(this).prop("checked")){
-		
-		var colorName = colorNames[config_live.data.datasets.length % colorNames.length];
+        addLiveLine(this);
+	}else{
+		//remove line
+		//config_live.data.datasets.splice(TIMLiveLineIndex, 1);// remove the label first
+		removeArryElementbyName(config_live.data.datasets, "TIM");
+	}
+	if(window.myLine!=null && window.myLine!='undefined')
+					window.myLine.update();
+});
+
+function addTIM_SPAT_MAP_BSM_live_lines()
+{
+    let checkboxes = document.getElementsByName('messageTypeCheckbox');
+    checkboxes.forEach(checkbox=>{
+        addLiveLine(checkbox);
+    });
+}
+
+//remove data
+function removeTIM_BSM_SPAT_MAP_data_live_line()
+{
+    //remove live line data
+    if(config_live!= null && config_live.data != null && config_live.data.datasets!=null ){
+         //remove data from all different message history lines
+         removeArryElementDatabyName(config_live.data.datasets, "TIM");
+         removeArryElementDatabyName(config_live.data.datasets, "SPAT");
+         removeArryElementDatabyName(config_live.data.datasets, "BSM");
+         removeArryElementDatabyName(config_live.data.datasets, "MAP");
+    }
+    //update label x-axis
+    config_live.data.labels= [];
+    return true;
+}
+
+function addLiveLine(checkbox)
+{
+        var colorName = colorNames[config_live.data.datasets.length % colorNames.length];
 		var newColor = window.chartColors[colorName];
-		TIMLiveLineIndex = config_live.data.datasets.length;
 		var newDataset = {
-			label: this.value + (config_live.data.datasets.length ),
+			label: checkbox.value + (config_live.data.datasets.length ),
 			borderColor: newColor,
 			backgroundColor: color(newColor).alpha(0.5).rgbString(),
 			data: [],
@@ -288,13 +246,18 @@ document.getElementById('inlineCheckboxTIM').addEventListener('click', function(
 			// newDataset.data.push(randomScalingFactor());
 			newDataset.data.push(0);
 		}
-
 		config_live.data.datasets.push(newDataset);
+}
 
-	}else{
-		//remove line
-		config_live.data.datasets.splice(TIMLiveLineIndex, 1);// remove the label first
-	}
-	if(window.myLine!=null && window.myLine!='undefined')
-					window.myLine.update();
-});
+$(document).ready(function(){
+    //add all lines
+    if($('#inlineCheckboxTIM').prop("checked") && $('#inlineCheckboxBSM').prop("checked")
+        && $('#inlineCheckboxSPAT').prop("checked") && $('#inlineCheckboxMAP').prop("checked"))
+    {
+        //defined in line_charts_live.js
+        addTIM_SPAT_MAP_BSM_live_lines();
+        if(window.myLine!=null && window.myLine!='undefined')
+                window.myLine.update();
+
+    }
+})

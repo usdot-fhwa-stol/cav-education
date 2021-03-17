@@ -175,7 +175,7 @@ services:
     depends_on:
       - mysql
     environment:
-      - WAIT_HOSTS=mysql:3306, cav:8882
+      - WAIT_HOSTS=mysql:3306, node:1337, cav:8882
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=30
       - WAIT_HOST_CONNECT_TIMEOUT=30
@@ -186,13 +186,15 @@ services:
     command: sh -c "/wait && /code/app.sh"
     ports:
       - "8080:8080"
+      - "1337:1337"
     depends_on:
       - mysql
     environment:
-      - WAIT_HOSTS=mysql:3306, cav:8882
+      - WAIT_HOSTS=kafka:29092, mysql:3306, cav:8882
       - WAIT_HOSTS_TIMEOUT=300
       - WAIT_SLEEP_INTERVAL=30
       - WAIT_HOST_CONNECT_TIMEOUT=30
+      - BOOTSTRAP_SERVERS=kafka:29092
 
   cav:
     build: ../kafka/.

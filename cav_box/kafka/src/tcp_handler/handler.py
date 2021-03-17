@@ -17,8 +17,9 @@ class TCPHandler(socketserver.BaseRequestHandler):
     client.
     """        
 
-    dsrc_message_producer = Dsrc(0, None, None)
+    dsrc_message_producer = Dsrc(0, None, None, None)
     mfd = MessageFrameDecoder()
+
     def handle(self):
 
         self.data = self.request.recv(1024).strip()
@@ -30,16 +31,16 @@ class TCPHandler(socketserver.BaseRequestHandler):
         record_key = "J2735.DSRC.MessageFrame"
         record_value = json.dumps(msg())
 
-        # print(record_value["messageId"])
+        print(msg())
 
-        message_id = msg()["messageId"]
+        # message_id = msg()["messageId"]
         value = msg()["value"]
 
-        self.dsrc_message_producer.set_message_id(message_id)
-
-        self.dsrc_message_producer.set_value(json.dumps(value[1]))
-
+        # self.dsrc_message_producer.set_message_id(0)
+        self.dsrc_message_producer.set_original_message(str(self.data))
         self.dsrc_message_producer.set_payload(record_value)
+        self.dsrc_message_producer.set_payload(record_value)
+        
         self.dsrc_message_producer.run()
 
         # just send back the same data, but upper-cased

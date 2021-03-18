@@ -44,7 +44,6 @@ def postMessageFilters(request):
         print(end_date)
         resultSet = resultSet.filter(timestamp__lte=end_date)
 
-    # print(request.POST)
     print(resultSet)
     data = serializers.serialize('json',resultSet,fields=('message_type','timestamp','payload','original_message'))
     return HttpResponse(data, content_type="application/json")

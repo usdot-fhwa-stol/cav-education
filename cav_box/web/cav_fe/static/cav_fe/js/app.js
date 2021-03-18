@@ -9,7 +9,6 @@ $(document).ready(function(){
         
 
         $('#real-time-btn').click(function(){
-           // $('#graphMsgTypes').css('display','none');
             $('#real-time-canvas').css('display','');
             $('#history-canvas').css('display','none');
             $('#history_datetime_filters').css('display','none');
@@ -31,7 +30,6 @@ $(document).ready(function(){
         });
 
         $('#history-btn').click(function(){
-          //  $('#graphMsgTypes').css('display','inline-block');
             $('#real-time-canvas').css('display','none');
             $('#history-canvas').css('display','');
             $('#history_datetime_filters').css('display','');
@@ -42,7 +40,6 @@ $(document).ready(function(){
         
         //
         $('#map-view-tab').click(function(){
-            // $(this).attr('style', 'color: black !important');
             $(this).attr('style', 'color: white !important');
             $('#map-view').css('display','');
             $('#table-view').css('display','none');
@@ -51,7 +48,6 @@ $(document).ready(function(){
         });
         
         $('#table-view-tab').click(function(){
-            // $(this).attr('style', 'color: black !important');
             $(this).attr('style', 'color: white !important');
             $('#table-view').css('display','');
             $('#map-view').css('display','none');

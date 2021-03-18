@@ -7,17 +7,7 @@ var config_live = {
 	data: {
 		labels: [ ],
 		datasets: 
-		[
-			// {
-			// 	label: 'BSM',
-			// 	backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-			// 	borderColor: window.chartColors.blue,
-			// 	fill: false,
-			// 	data: [
-			// 			// randomScalingFactor(),randomScalingFactor()
-			// 		],
-			// }					
-		]
+		[]
 	},
 	options: {
 		title: {
@@ -153,7 +143,6 @@ document.getElementById('inlineCheckboxBSM').addEventListener('click', function(
 		addLiveLine(this);
 	}else{
 		//remove line
-		//config_live.data.datasets.splice(BSMLiveLineIndex, 1);// remove the label first
 		removeArryElementbyName(config_live.data.datasets, "BSM");
 	}
 	
@@ -170,7 +159,6 @@ document.getElementById('inlineCheckboxMAP').addEventListener('click', function(
 
 	}else{
 		//remove line
-		//config_live.data.datasets.splice(MAPLiveLineIndex, 1);// remove the label first
 		removeArryElementbyName(config_live.data.datasets, "MAP");
 	}
 	
@@ -185,7 +173,6 @@ document.getElementById('inlineCheckboxSPAT').addEventListener('click', function
 		addLiveLine(this);
 	}else{
 		//remove line
-		//config_live.data.datasets.splice(SPATLiveLineIndex, 1);// remove the label first
 		removeArryElementbyName(config_live.data.datasets, "SPAT");
 	}
 	
@@ -200,7 +187,6 @@ document.getElementById('inlineCheckboxTIM').addEventListener('click', function(
         addLiveLine(this);
 	}else{
 		//remove line
-		//config_live.data.datasets.splice(TIMLiveLineIndex, 1);// remove the label first
 		removeArryElementbyName(config_live.data.datasets, "TIM");
 	}
 	if(window.myLine!=null && window.myLine!='undefined')
@@ -243,7 +229,6 @@ function addLiveLine(checkbox)
 		};
 
 		for (var index = 0; index < config_live.data.labels.length; ++index) {
-			// newDataset.data.push(randomScalingFactor());
 			newDataset.data.push(0);
 		}
 		config_live.data.datasets.push(newDataset);

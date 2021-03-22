@@ -26,25 +26,29 @@ class TCPHandler(socketserver.BaseRequestHandler):
         logging.info("{} Wrote:".format(self.client_address[0]))
 
         print(self.data)
-        msg = self.mfd.decode(self.data)
 
-        record_key = "J2735.DSRC.MessageFrame"
-        record_value = json.dumps(msg())
+        if(self.data is None or self.data == b''):
+            self.request.sendall(self.data.upper())
+        else:
+            try:
+                msg = self.mfd.decode(self.data)
+                record_key = "J2735.DSRC.MessageFrame"
 
-        print(msg())
+                if("value" in msg()):
+                    record_value = json.dumps(msg()['value'][1])
 
-        # message_id = msg()["messageId"]
-        value = msg()["value"]
+                    self.dsrc_message_producer.set_original_message(str(self.data))
+                    self.dsrc_message_producer.set_payload(record_value)
+                    self.dsrc_message_producer.set_message_type(msg()['value'][0])
+                    self.dsrc_message_producer.run()
 
-        # self.dsrc_message_producer.set_message_id(0)
-        self.dsrc_message_producer.set_original_message(str(self.data))
-        self.dsrc_message_producer.set_payload(record_value)
-        self.dsrc_message_producer.set_payload(record_value)
-        
-        self.dsrc_message_producer.run()
+                # just send back the same data, but upper-cased
+                self.request.sendall(self.data.upper())
 
-        # just send back the same data, but upper-cased
-        self.request.sendall(self.data.upper())
+            except Exception as e:
+                print(e)
+                self.request.sendall(self.data.upper())
+
 
 
 

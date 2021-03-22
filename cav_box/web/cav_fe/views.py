@@ -19,10 +19,13 @@ def detail(request,question_id):
 
 def postMessageFilters(request):
     datetimepicker_end_datetime_str = request.POST.get('datetimepicker_end_datetime_str')
-    end_date = datetime.datetime.strptime(datetimepicker_end_datetime_str, '%m/%d/%Y %I:%M %p')
+    if len(datetimepicker_end_datetime_str) > 0:
+        end_date = datetime.datetime.strptime(datetimepicker_end_datetime_str, '%m/%d/%Y %I:%M %p')
 
     datetimepicker_start_datetime_str = request.POST.get('datetimepicker_start_datetime_str')
-    start_date = datetime.datetime.strptime(datetimepicker_start_datetime_str, '%m/%d/%Y %I:%M %p')
+
+    if len(datetimepicker_start_datetime_str) > 0:
+        start_date = datetime.datetime.strptime(datetimepicker_start_datetime_str, '%m/%d/%Y %I:%M %p')
 
     filter_msg_type = request.POST.get('filter_msg_type')
 
@@ -34,7 +37,7 @@ def postMessageFilters(request):
         resultSet = resultSet.filter(Q(message_type__in=filter_msg_type_array) | Q(message_type=filter_msg_type))
         print(filter_msg_type_array)
 
-    if len(datetimepicker_start_datetime_str) > 0 :
+    if len(datetimepicker_start_datetime_str) > 0:
         print(len(datetimepicker_start_datetime_str))
         print(start_date)
         resultSet = resultSet.filter(timestamp__gte=start_date)

@@ -49,7 +49,7 @@
               <div style="  text-align:left;margin-left:0px;margin-right:0px;" class="col-6">
                 <div id="graphMsgTypes" style="display: ;" >
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxBSM" value="BSM" checked>
+                    <input class="form-check-input addDataSet" name="messageTypeCheckbox" type="checkbox" id="inlineCheckboxBSM" value="BasicSafetyMessage" checked>
                   <label class="form-check-label" for="inlineCheckboxBSM">BSM</label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -103,11 +103,14 @@
   </div>
 
   <div class="row" id="table-view" style="display:none;background-color: white; padding-top: 10px; margin-left: 2px;margin-right: 2px; ">
+      <div class="message table col-1 offset-11" >
+            <button type="button" class="btn btn-primary btn-lg" style="float: right" id="table_refresh">Refresh</button>
+      </div>
     <!--Filters-->
     <div class="col-2">
         <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="filter_msg_type">
           <option selected value="">Message Type</option>
-          <option value="BSM">BSM</option>
+          <option value="BasicSafetyMessage">BasicSafetyMessage</option>
           <option value="TIM">TIM</option>
           <option value="MAP">MAP</option>
           <option value="SPAT">SPAT</option>
@@ -152,8 +155,8 @@
               <tr>
                   <td>{{msg.message_type}}</td>
                   <td>{{msg.timestamp}}</td>
-                  <td className="message view pointer"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>
-                  <td>{{msg.original_message}}</td>
+                  <td class="width-40-percent"  data-toggle="modal" data-target="#exampleModalCenter">{{msg.payload}}</td>
+                  <td class="width-40-percent">{{msg.original_message}}</td>
               {% endfor%}
           </tbody>
         </table>

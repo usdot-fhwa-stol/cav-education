@@ -60,18 +60,30 @@ $(document).ready(function(){
 
     //table filters
     $("#table_filter_search").on('click', function() {
-    
+
        let datetimepicker_start_datetime_str = $("#datetimepicker_start_datetime").val();
        let datetimepicker_end_datetime_str = $("#datetimepicker_end_datetime").val();
        let filter_msg_type = $("#filter_msg_type option:selected").val();
 
-        
+
        if(datetimepicker_end_datetime_str.length==0 || datetimepicker_start_datetime_str.length==0)
        {
            alert("start and end date is required");
            return;
        }
-    
+
+       getDSRCMessagesByFilters(datetimepicker_start_datetime_str, datetimepicker_end_datetime_str, filter_msg_type);
+    });
+
+    //refresh button
+    $("#table_refresh").on('click', function() {
+        getDSRCMessagesByFilters("", "", "");
+    });
+});
+
+function getDSRCMessagesByFilters(datetimepicker_start_datetime_str, datetimepicker_end_datetime_str, filter_msg_type)
+{
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -88,21 +100,21 @@ $(document).ready(function(){
         return cookieValue;
     }
     const csrftoken = getCookie('csrftoken');
-    
+
     $.post( "post/ajax/message_filters",
     {
         'datetimepicker_start_datetime_str': datetimepicker_start_datetime_str,
         'datetimepicker_end_datetime_str': datetimepicker_end_datetime_str,
         'filter_msg_type': filter_msg_type,
         'csrfmiddlewaretoken': csrftoken
-        
+
     },
     function(data,success){
         console.log(data);
         console.log(success);
         if(success)
             $("#message-table tbody").empty();
-        
+
         if(success&& data !=null && data.length>0){
 
         data.forEach(function(instance){
@@ -112,17 +124,15 @@ $(document).ready(function(){
                     `<tr>
                     <td>${fields["message_type"]||""}</td>
                     <td>${fields["timestamp"]||""}</td>
-                    <td>${fields["payload"]||""}</td>
-                    <td>${fields["original_message"]||""}</td>
+                    <td class="width-40-percent" >${fields["payload"]||""}</td>
+                    <td class="width-40-percent" >${fields["original_message"]||""}</td>
                     </tr>`
                 )
         })
-           
+
         }
-       
+
     });
+}
 
-});
 
-
- });

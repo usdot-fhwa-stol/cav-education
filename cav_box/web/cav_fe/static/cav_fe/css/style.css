@@ -41,6 +41,11 @@ ul li{
     padding-left: 20px;
     width: 70px;
 }
+
+td.width-40-percent {
+    word-break: break-all;
+    width: 40%
+}
 .input-color .color-box {
     width: 10px;
     height: 10px;

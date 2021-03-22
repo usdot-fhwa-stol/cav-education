@@ -59,7 +59,7 @@ $('#history-btn').click(function(){
 			addHistoryLine(this);
 		}else{
 			//remove line
-		    removeArryElementbyName(config_history.data.datasets, "BSM");
+		    removeArryElementbyName(config_history.data.datasets, "BasicSafetyMessage");
 		}
 		if(window.myLineHistory!=null && window.myLineHistory!='undefined')
 			window.myLineHistory.update();
@@ -249,8 +249,8 @@ function addTIM_SPAT_MAP_BSM_history_lines()
 					for (var i=0 ;i<Axes_total_minutess;i++)
 					{
 						//calculate count within one minutes from the history_step_datetime
-						let count = countHistoryDataByDatetimeRange(historyData,"BSM" ,moment(history_step_datetime).toDate(), moment(history_step_datetime).add(1, 'm').toDate());
-                        updateArryElementDataCountbyName(config_history.data.datasets,"BSM",count);
+						let count = countHistoryDataByDatetimeRange(historyData,"BasicSafetyMessage" ,moment(history_step_datetime).toDate(), moment(history_step_datetime).add(1, 'm').toDate());
+                        updateArryElementDataCountbyName(config_history.data.datasets,"BasicSafetyMessage",count);
 
                         count = countHistoryDataByDatetimeRange(historyData,"TIM" ,moment(history_step_datetime).toDate(), moment(history_step_datetime).add(1, 'm').toDate());
                         updateArryElementDataCountbyName(config_history.data.datasets,"TIM",count);

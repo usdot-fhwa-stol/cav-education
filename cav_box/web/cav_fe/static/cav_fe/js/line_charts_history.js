@@ -204,7 +204,7 @@ function addTIM_SPAT_MAP_BSM_history_lines()
          //remove data from all different message history lines
          removeArryElementDatabyName(config_history.data.datasets, "TIM");
          removeArryElementDatabyName(config_history.data.datasets, "SPAT");
-         removeArryElementDatabyName(config_history.data.datasets, "BSM");
+         removeArryElementDatabyName(config_history.data.datasets, "BasicSafetyMessage");
          removeArryElementDatabyName(config_history.data.datasets, "MAP");
     }
 

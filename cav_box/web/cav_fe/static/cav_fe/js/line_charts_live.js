@@ -98,7 +98,7 @@ window.onload = function() {
 
             if (config_live.data.datasets.length > 0 && config_live.data.labels !=null && config_live.data.labels) {
                 //update date at y-axis
-                updateArryElementDataCountbyName(config_live.data.datasets,"BSM",BSMLiveCount);
+                updateArryElementDataCountbyName(config_live.data.datasets,"BasicSafetyMessage",BSMLiveCount);
                 BSMLiveCount = 0;
 
                 updateArryElementDataCountbyName(config_live.data.datasets,"TIM",TIMLiveCount);
@@ -121,7 +121,7 @@ window.onload = function() {
                     console.log("remove data. Reach max data labels length: "+config_live.data.labels.length)
                     config_live.data.labels.shift();
                     removeDatasetsFirstElementDatabyName(config_live.data.datasets,"TIM");
-                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"BSM");
+                    removeDatasetsFirstElementDatabyName(config_live.data.datasets,"BasicSafetyMessage");
                     removeDatasetsFirstElementDatabyName(config_live.data.datasets,"SPAT");
                     removeDatasetsFirstElementDatabyName(config_live.data.datasets,"MAP");
                 }
@@ -143,7 +143,7 @@ document.getElementById('inlineCheckboxBSM').addEventListener('click', function(
 		addLiveLine(this);
 	}else{
 		//remove line
-		removeArryElementbyName(config_live.data.datasets, "BSM");
+		removeArryElementbyName(config_live.data.datasets, "BasicSafetyMessage");
 	}
 	
 	if(window.myLine!=null && window.myLine!='undefined')
@@ -209,7 +209,7 @@ function removeTIM_BSM_SPAT_MAP_data_live_line()
          //remove data from all different message history lines
          removeArryElementDatabyName(config_live.data.datasets, "TIM");
          removeArryElementDatabyName(config_live.data.datasets, "SPAT");
-         removeArryElementDatabyName(config_live.data.datasets, "BSM");
+         removeArryElementDatabyName(config_live.data.datasets, "BasicSafetyMessage");
          removeArryElementDatabyName(config_live.data.datasets, "MAP");
     }
     //update label x-axis

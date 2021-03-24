@@ -42,7 +42,6 @@ class TCPHandler(socketserver.BaseRequestHandler):
                     self.dsrc_message_producer.set_message_type(msg()['value'][0])
                     self.dsrc_message_producer.run()
 
-                # just send back the same data, but upper-cased
                 self.request.sendall(self.data.upper())
 
             except Exception as e:

@@ -10,7 +10,7 @@ from collections import defaultdict
 from .models import incomming_dsrc_message
 
 def index(request):
-    messageDict = {'messages': incomming_dsrc_message.objects.all}
+    messageDict = {'messages': incomming_dsrc_message.objects.order_by('timestamp').all()[:20]}
     return render(request, 'cav_fe/index.html', messageDict)
 
 def detail(request,question_id):
@@ -29,7 +29,7 @@ def postMessageFilters(request):
 
     filter_msg_type = request.POST.get('filter_msg_type')
 
-    resultSet = incomming_dsrc_message.objects.all()
+    resultSet = incomming_dsrc_message.objects.order_by('timestamp').all()
 
     # filter_msg_type is a string containing commas
     if len(filter_msg_type) > 0:
@@ -47,6 +47,5 @@ def postMessageFilters(request):
         print(end_date)
         resultSet = resultSet.filter(timestamp__lte=end_date)
 
-    print(resultSet)
-    data = serializers.serialize('json',resultSet,fields=('message_type','timestamp','payload','original_message'))
+    data = serializers.serialize('json', resultSet[:20],fields=('message_type','timestamp','payload','original_message'))
     return HttpResponse(data, content_type="application/json")

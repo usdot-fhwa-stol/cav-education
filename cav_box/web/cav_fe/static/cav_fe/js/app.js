@@ -101,7 +101,7 @@ function getDSRCMessagesByFilters(datetimepicker_start_datetime_str, datetimepic
     }
     const csrftoken = getCookie('csrftoken');
 
-    $.post( "post/ajax/message_filters",
+    $.post( "post/ajax/message_filters_top_20",
     {
         'datetimepicker_start_datetime_str': datetimepicker_start_datetime_str,
         'datetimepicker_end_datetime_str': datetimepicker_end_datetime_str,

@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('<int:user_id>/', views.detail, name='detail'),
-    path('post/ajax/message_filters', views.postMessageFilters, name = "post_message_filters")
+    path('post/ajax/message_filters', views.postMessageFilters, name = "post_message_filters"),
+    path('post/ajax/message_filters_top_20', views.postMessageFiltersTop20, name = "post_message_filters_top_20")
 ]

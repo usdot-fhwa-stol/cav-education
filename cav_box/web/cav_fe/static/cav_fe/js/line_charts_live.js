@@ -66,23 +66,30 @@ window.onload = function() {
 	socket1.addEventListener('message', function (event) {
         console.log('line_chart_live.js - Message from SERVER: ', event.data);
 		var json = JSON.parse(event.data);
-		console.log("count live data for " + json.message_type);
+		console.log("count live data for " +JSON.stringify( json.message_type));
+		let message_type = json.message_type;
+		if(message_type != null && message_type.string != null)
+		{
+                if(message_type.string  == "BSM" || message_type.string =="BasicSafetyMessage")
+                {
+                    ++BSMLiveCount;
+                }
+                else if(message_type.string  == "TIM" || message_type.string  =="TravelerInformationMessage")
+                {
+                    ++TIMLiveCount;
+                }
+                else if(message_type.string  == "SPAT" ){
+                    ++SPATLiveCount;
+                    console.log("SPAT count " + SPATLiveCount);
+                }
+                else if(message_type.string  == "MAP" ){
+                    ++MAPLiveCount;
+                }
+		}else{
+		    console.error("Message type is null");
+		}
 
-		if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
-		{
-			++BSMLiveCount;
-		}
-		else if(json.message_type.trim() == "TIM" || json.message_type.trim()=="TravelerInformationMessage")
-		{
-			++TIMLiveCount; 
-		}
-		else if(json.message_type.trim() == "SPAT" ){
-			++SPATLiveCount;
-			console.log("SPAT count " + SPATLiveCount);
-		}
-		else if(json.message_type.trim() == "MAP" ){
-			++MAPLiveCount; 
-		}
+
 
     });//end of socket message listener
 

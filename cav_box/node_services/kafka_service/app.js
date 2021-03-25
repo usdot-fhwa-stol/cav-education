@@ -52,6 +52,10 @@ wsServer = new WebSocketServer({
 wsServer.on('request', function (request) {
   var connection = request.accept(null, request.origin);
 
+  var socketClients = [];
+  var index = socketClients.push(connection) - 1;
+  console.log("socketClients index " + index);
+
   // This is the most important callback for us, we'll handle
   // all messages from users here.
   connection.on('message', function (message) {
@@ -93,7 +97,7 @@ wsServer.on('request', function (request) {
           console.log(rawData)
           const data = type.fromBuffer(rawData.value.slice(5)) 
           console.log(data)
-          connection.sendUTF(data);
+           socketClients[index].sendUTF(data);
         });
 
       });

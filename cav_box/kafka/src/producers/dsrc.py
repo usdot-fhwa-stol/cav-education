@@ -19,7 +19,7 @@ class Dsrc(Producer):
             topic_name="incomming_dsrc_message",
             key_schema=Dsrc.key_schema,
             value_schema=Dsrc.value_schema,
-            num_partitions=3,
+            num_partitions=10,
             num_replicas=1,
         )
 

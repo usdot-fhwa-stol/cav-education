@@ -1,0 +1,39 @@
+<html>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/earlyaccess/hanna.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<body>
+
+    <div id="mapid" style="height: 98vh;"></div>
+
+    <script>
+        var mymap = L.map('mapid').setView([38.956542920111275, -77.14985402310461], 20);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mymap);
+
+        var marker = L.marker([38.956542920111275, -77.14985402310461]).addTo(mymap);
+
+        var evtSource = new EventSource("/hello");
+        evtSource.onmessage = function (e) {
+
+            var lat_ = JSON.parse(e.data).lat / 10000000
+            var lon_ = JSON.parse(e.data).lon / 10000000
+
+            var lat = (lat_);
+            var lng = (lon_);
+
+            var newLatLng = new L.LatLng(lat, lng);
+            marker.setLatLng(newLatLng);
+            mymap.setView(newLatLng, 19);
+        }
+    </script>
+</body>
+

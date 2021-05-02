@@ -22,7 +22,7 @@ reader = DatumReader(value_schema)
 
 app = faust.App(
     'incomming_dsrc_message',
-    broker='kafka://localhost:9092',
+    broker='kafka:29092',
     value_serializer='raw',
 )
 

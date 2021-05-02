@@ -164,6 +164,20 @@ services:
     volumes:
      - ./data/mysql:/docker-entrypoint-initdb.d/
 
+  kafka-rest:
+    image: confluentinc/cp-kafka-rest:6.1.1
+    hostname: kafka-rest
+    ports:
+    - "38082:38082"
+    depends_on:
+      - schema-registry
+    environment:
+      KAFKA_REST_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_REST_SCHEMA_REGISTRY_URL: schema-registry:38081
+      KAFKA_REST_HOST_NAME: kafka-rest
+      KAFKA_REST_LISTENERS: http://kafka-rest:38082
+      KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
+
   web:
     build: ../web/.
     container_name: web
@@ -180,21 +194,21 @@ services:
       - WAIT_SLEEP_INTERVAL=30
       - WAIT_HOST_CONNECT_TIMEOUT=30
 
-  node:
-    build: ../node_services/kafka_service/.
-    container_name: node
-    command: sh -c "/wait && /code/app.sh"
-    ports:
-      - "8080:8080"
-      - "1337:1337"
-    depends_on:
-      - mysql
-    environment:
-      - WAIT_HOSTS=kafka:29092, mysql:3306, cav:8882
-      - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=30
-      - WAIT_HOST_CONNECT_TIMEOUT=30
-      - BOOTSTRAP_SERVERS=kafka:29092
+  # node:
+  #   build: ../node_services/kafka_service/.
+  #   container_name: node
+  #   command: sh -c "/wait && /code/app.sh"
+  #   ports:
+  #     - "8080:8080"
+  #     - "1337:1337"
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     - WAIT_HOSTS=kafka:29092, mysql:3306, cav:8882
+  #     - WAIT_HOSTS_TIMEOUT=300
+  #     - WAIT_SLEEP_INTERVAL=30
+  #     - WAIT_HOST_CONNECT_TIMEOUT=30
+  #     - BOOTSTRAP_SERVERS=kafka:29092
 
   cav:
     build: ../kafka/.
@@ -214,5 +228,79 @@ services:
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
 
+  faust:
+    build: ../faust/.
+    container_name: faust
+    command: sh -c "/wait && /code/app.sh"
+    ports:
+      - 6066:6066
+    expose:
+      - 6066
+    environment:
+      - WAIT_HOSTS=mysql:3306, kafka:29092, kafka-connect-01:8083, schema-registry:8081
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - BOOTSTRAP_SERVERS=kafka:29092
+      - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+
+  sqlpad:
+    image: sqlpad/sqlpad:5.6.0
+    hostname: 'sqlpad'
+    depends_on:
+      - 'mysql'
+    ports:
+      - '3000:3000'
+    environment:
+      SQLPAD_ADMIN: 'admin'
+      SQLPAD_ADMIN_PASSWORD: 'admin'
+      SQLPAD_APP_LOG_LEVEL: debug
+      SQLPAD_WEB_LOG_LEVEL: warn
+      # SQLPAD_SEED_DATA_PATH: /etc/sqlpad/seed-data
+      # SQLPAD_BACKEND_DB_URI: mysql://root:password@mysql:3306/db?timezone=Etc%2FGMT0
+      SQLPAD_SESSION_STORE: 'database'
+      SQLPAD_DB_PATH: '/var/lib/sqlpad'
+      SQLPAD_DB_IN_MEMORY: 'false'
+      SQLPAD_QUERY_RESULT_STORE: 'database'
+      # This adds a pre-configured connection to point to the database
+      # used as the backend for SQLPad itself
+      SQLPAD_CONNECTIONS__mariad__name: 'Mysql Demo'
+      SQLPAD_CONNECTIONS__mariad__driver: mysql
+      SQLPAD_CONNECTIONS__mariad__host: mysql
+      SQLPAD_CONNECTIONS__mariad__port: 3306
+      SQLPAD_CONNECTIONS__mariad__database: cav
+      SQLPAD_CONNECTIONS__mariad__username: root
+      SQLPAD_CONNECTIONS__mariad__password: Admin123
+
+  server:
+    build:
+      context: ../node-react/server/
+    command: /usr/app/node_modules/.bin/nodemon src/index.js
+    volumes:
+      - ../node-react/server/:/usr/app
+      - /usr/app/node_modules
+    ports:
+      - "9000:9000"
+      - "3001:3001"
+    # env_file: ./server/.env # TODO - uncomment this to auto-load your .env file!
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  client:
+    build:
+      context: ../node-react/client/
+    command: npm start
+    volumes:
+      - ../node-react/client/:/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - CHOKIDAR_USEPOLLING=true
+  
 volumes:
     db-leach: {}

@@ -33,6 +33,7 @@ class Dsrc(Producer):
 
     def run(self):
         try:
+            now = datetime.now()
             self.producer.produce(
                 topic=self.topic_name,
                 key={"timestamp": self.time_millis()},
@@ -41,7 +42,7 @@ class Dsrc(Producer):
                     "message_type": self.message_type,
                     "original_message": self.original_message,
                     "payload": self.payload,
-                    "timestamp": self.timestamp
+                    "timestamp": now.strftime('%Y-%m-%d %H:%M:%S')
                 }
             )
         except Exception as e:

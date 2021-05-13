@@ -337,11 +337,10 @@ function updateArryElementDataCountbyName(array, element_name, count)
                 </div>
                 </div>
             </div>
-
-            <div style=" display: inline-block;height: 600px;"  id="graphid" >
-                <canvas id="real-time-canvas" style="display: inline-block;height: 600; "   class="chartjs-render-monitor"></canvas>
-            </div> 
         </div>   
+        <div style=" display: inline-block;"  id="graphid" >
+            <canvas id="real-time-canvas" style="display: inline-block;height: 200; width: 800;"   class="chartjs-render-monitor"></canvas>
+        </div> 
     </div>
 
     <script>
@@ -603,6 +602,7 @@ function updateArryElementDataCountbyName(array, element_name, count)
                 config_live.data.datasets.push(newDataset);
         }
         $(document).ready(function(){
+            $("#graphid").hide();
             $('#map-btn').click(function(){
                 $(this).addClass("btn-primary");
                 $(this).removeClass("btn-secondary");

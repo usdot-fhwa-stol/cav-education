@@ -366,24 +366,24 @@ function updateArryElementDataCountbyName(array, element_name, count)
             marker.setLatLng(newLatLng);
             mymap.setView(newLatLng, 19);
             
-            var json = JSON.parse(e.data);
-            console.log("count live data for " + json.message_type);
-
-            if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
-            {
-                ++BSMLiveCount;
-            }
-            else if(json.message_type.trim() == "TIM" || json.message_type.trim()=="TravelerInformationMessage")
-            {
-                ++TIMLiveCount; 
-            }
-            else if(json.message_type.trim() == "SPAT" ){
-                ++SPATLiveCount;
-                console.log("SPAT count " + SPATLiveCount);
-            }
-            else if(json.message_type.trim() == "MAP" ){
-                ++MAPLiveCount; 
-            }
+            // var json = JSON.parse(e.data);
+            // console.log("count live data for " + json.message_type);
+            ++BSMLiveCount;
+            // if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
+            // {
+            //     ++BSMLiveCount;
+            // }
+            // else if(json.message_type.trim() == "TIM" || json.message_type.trim()=="TravelerInformationMessage")
+            // {
+            //     ++TIMLiveCount; 
+            // }
+            // else if(json.message_type.trim() == "SPAT" ){
+            //     ++SPATLiveCount;
+            //     console.log("SPAT count " + SPATLiveCount);
+            // }
+            // else if(json.message_type.trim() == "MAP" ){
+            //     ++MAPLiveCount; 
+            // }
         }
 
         //Grap

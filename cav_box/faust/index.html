@@ -366,7 +366,7 @@ function updateArryElementDataCountbyName(array, element_name, count)
             marker.setLatLng(newLatLng);
             mymap.setView(newLatLng, 19);
             
-            var json = JSON.parse(event.data);
+            var json = JSON.parse(e.data);
             console.log("count live data for " + json.message_type);
 
             if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")

@@ -19,9 +19,16 @@ cd cavinbox/docker
 docker-compose up --build
 ```
 
-Before usage place the J2735.py inside kafka/src/dsrc_message_decoder
-
+Before usage place the J2735.py inside kafka/src/dsrc_message_decoder 
 to obtaine the source code for J2735.py contact `carmasuport@dot.gov`
+
+To take a look at the UI open browser and use bellow to access the UI
+
+| Feature         | address         |
+| --------------  | --------------- |
+| CAV LIVE UI     | localhost:6606  |
+| Control Center  | localhost:8083  |
+| Sqlpad          | localhost:3000  |
 
 ## Local Tests
 

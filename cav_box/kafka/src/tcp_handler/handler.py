@@ -7,6 +7,7 @@ import socket
 
 from dsrc_message_decoder.message_frame_decoder import MessageFrameDecoder
 from producers.dsrc import Dsrc
+from binascii import hexlify, unhexlify
 
 
 class TCPHandler(socketserver.BaseRequestHandler):
@@ -25,7 +26,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
         self.data = self.request.recv(1024).strip()
         logging.info("{} Wrote:".format(self.client_address[0]))
 
-        print(self.data)
+        # print(self.data)
 
         if(self.data is None or self.data == b''):
             self.request.sendall(self.data.upper())
@@ -37,7 +38,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 if("value" in msg()):
                     record_value = json.dumps(msg()['value'][1])
 
-                    self.dsrc_message_producer.set_original_message(str(self.data))
+                    self.dsrc_message_producer.set_original_message(unhexlify(self.data).decode('utf-8'))
                     self.dsrc_message_producer.set_payload(record_value)
                     self.dsrc_message_producer.set_message_type(msg()['value'][0])
                     self.dsrc_message_producer.run()

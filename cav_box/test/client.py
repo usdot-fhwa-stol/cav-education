@@ -11,7 +11,7 @@ TCP_PORT = 8882
 BUFFER_SIZE = 1024
 timebuffer = 0.003
 
-number_message = 10
+number_message = 100000
 cnt = 0
 
 csvfile = open('test.csv')

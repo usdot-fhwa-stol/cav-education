@@ -19,6 +19,18 @@ cd cavinbox/docker
 docker-compose up --build
 ```
 
+Before usage place the J2735.py inside kafka/src/dsrc_message_decoder
+
+to obtaine the source code for J2735.py contact `carmasuport@dot.gov`
+
+## Local Tests
+
+to run local test cases use the test folder to produce sample data
+```bash
+cd cavinbox/test
+python client.py
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

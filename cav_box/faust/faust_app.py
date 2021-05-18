@@ -41,7 +41,7 @@ async def greet(greetings):
     async for greeting in greetings:
         last_message_from_topic[0] = greeting
 
-@app.page('/bsm')
+@app.page('/BSM')
 async def bsm(self, request):
     loop = request.app.loop
     async with sse_response(request) as resp:
@@ -49,6 +49,42 @@ async def bsm(self, request):
             data = f'{decode(last_message_from_topic[0])}'
             parsed_data = decode(last_message_from_topic[0])
             if( parsed_data["message_type"] == "BasicSafetyMessage"):
+                await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
+                await asyncio.sleep(0.001, loop=loop)
+    return resp
+
+@app.page('/SPAT')
+async def spat(self, request):
+    loop = request.app.loop
+    async with sse_response(request) as resp:
+        while True:
+            data = f'{decode(last_message_from_topic[0])}'
+            parsed_data = decode(last_message_from_topic[0])
+            if( parsed_data["message_type"] == "SPAT"):
+                await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
+                await asyncio.sleep(0.001, loop=loop)
+    return resp
+
+@app.page('/MAP')
+async def map(self, request):
+    loop = request.app.loop
+    async with sse_response(request) as resp:
+        while True:
+            data = f'{decode(last_message_from_topic[0])}'
+            parsed_data = decode(last_message_from_topic[0])
+            if( parsed_data["message_type"] == "MAP"):
+                await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
+                await asyncio.sleep(0.001, loop=loop)
+    return resp
+
+@app.page('/TIM')
+async def tim(self, request):
+    loop = request.app.loop
+    async with sse_response(request) as resp:
+        while True:
+            data = f'{decode(last_message_from_topic[0])}'
+            parsed_data = decode(last_message_from_topic[0])
+            if( parsed_data["message_type"] == "TravelerInformationMessage"):
                 await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
                 await asyncio.sleep(0.001, loop=loop)
     return resp

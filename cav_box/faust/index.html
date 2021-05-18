@@ -355,8 +355,8 @@ function updateArryElementDataCountbyName(array, element_name, count)
 
         var marker = L.marker(TFHRC).addTo(mymap);
 
-        var evtSource = new EventSource("/bsm");
-        evtSource.onmessage = function (e) {
+        var BSM_evtSource = new EventSource("/BSM");
+        BSM_evtSource.onmessage = function (e) {
 
             var lat = (JSON.parse(e.data).lat / 10000000);
             var lng = (JSON.parse(e.data).long / 10000000);
@@ -383,6 +383,21 @@ function updateArryElementDataCountbyName(array, element_name, count)
             // else if(json.message_type.trim() == "MAP" ){
             //     ++MAPLiveCount; 
             // }
+        }
+
+        var TIM_evtSource = new EventSource("/TIM");
+        TIM_evtSource.onmessage = function (e) {            
+            ++TIMLiveCount;
+        }
+
+        var SPAT_evtSource = new EventSource("/SPAT");
+        SPAT_evtSource.onmessage = function (e) {            
+            ++SPATLiveCount;
+        }
+
+        var MAP_evtSource = new EventSource("/MAP");
+        MAP_evtSource.onmessage = function (e) {            
+            ++MAPLiveCount;
         }
 
         //Grap

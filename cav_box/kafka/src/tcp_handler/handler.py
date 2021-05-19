@@ -32,15 +32,14 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(self.data.upper())
         else:
             try:
-                msg = self.mfd.decode(self.data)
-                record_key = "J2735.DSRC.MessageFrame"
+                key, msg = self.mfd.decode(self.data)
 
-                if("value" in msg()):
-                    record_value = json.dumps(msg()['value'][1])
+                logging.debug(msg)
 
+                if(msg != None):
                     self.dsrc_message_producer.set_original_message(unhexlify(self.data).decode('utf-8'))
-                    self.dsrc_message_producer.set_payload(record_value)
-                    self.dsrc_message_producer.set_message_type(msg()['value'][0])
+                    self.dsrc_message_producer.set_payload(msg)
+                    self.dsrc_message_producer.set_message_type(key)
                     self.dsrc_message_producer.run()
 
                 self.request.sendall(self.data.upper())

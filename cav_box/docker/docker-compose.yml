@@ -195,6 +195,7 @@ services:
       - DSRC_LISTENER_PORT=8882
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - TIME_ZONE=EST
 
   faust:
     build: ../faust/.

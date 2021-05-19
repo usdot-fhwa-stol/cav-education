@@ -196,6 +196,7 @@ services:
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
       - TIME_ZONE=EST
+      - LOGLEVEL=WARNING
 
   faust:
     build: ../faust/.

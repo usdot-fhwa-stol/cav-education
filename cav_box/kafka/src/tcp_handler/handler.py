@@ -26,8 +26,6 @@ class TCPHandler(socketserver.BaseRequestHandler):
         self.data = self.request.recv(1024).strip()
         logging.info("{} Wrote:".format(self.client_address[0]))
 
-        # print(self.data)
-
         if(self.data is None or self.data == b''):
             self.request.sendall(self.data.upper())
         else:
@@ -45,7 +43,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
                 self.request.sendall(self.data.upper())
 
             except Exception as e:
-                print(e)
+                logging.error(e)
                 self.request.sendall(self.data.upper())
 
 

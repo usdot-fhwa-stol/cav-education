@@ -26,9 +26,11 @@ To take a look at the UI open browser and use bellow to access the UI
 
 | Feature         | address         |
 | --------------  | --------------- |
-| CAV LIVE UI     | localhost:6606  |
+| CAV LIVE UI     | localhost:6066  |
 | Control Center  | localhost:8083  |
 | Sqlpad          | localhost:3000  |
+
+Sqlpad will require username and password. 
 
 ## Local Tests
 

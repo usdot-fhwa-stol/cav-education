@@ -32,9 +32,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
         else:
             try:
                 key, msg = self.mfd.decode(self.data)
-
                 logging.debug(msg)
-
                 if(msg != None):
                     self.dsrc_message_producer.set_original_message(unhexlify(self.data).decode('utf-8'))
                     self.dsrc_message_producer.set_payload(msg)
@@ -46,8 +44,3 @@ class TCPHandler(socketserver.BaseRequestHandler):
             except Exception as e:
                 logging.error(e)
                 self.request.sendall(self.data.upper())
-
-
-
-
-# ('BasicSafetyMessage', {'coreData': {'msgCnt': 117, 'id': "b'gE\\x8bk'", 'secMark': 24440, 'lat': 389565434, 'long': -771500475, 'elev': 745, 'accuracy': {'semiMajor': 255, 'semiMinor': 255, 'orientation': 65535}, 'transmission': 'neutral', 'speed': 8191, 'heading': 28800, 'angle': 127, 'accelSet': {'long': 2001, 'lat': 2001, 'vert': -127, 'yaw': 0}, 'brakes': {'wheelBrakes': (0, 5), 'traction': 'unavailable', 'abs': 'unavailable', 'scs': 'unavailable', 'brakeBoost': 'unavailable', 'auxBrakes': 'unavailable'}, 'size': {'width': 200, 'length': 500}}}) 

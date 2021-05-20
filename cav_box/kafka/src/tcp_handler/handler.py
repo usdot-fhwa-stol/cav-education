@@ -9,6 +9,7 @@ from dsrc_message_decoder.message_frame_decoder import MessageFrameDecoder
 from producers.dsrc import Dsrc
 from binascii import hexlify, unhexlify
 
+BUFFER_SIZE = 2048
 
 class TCPHandler(socketserver.BaseRequestHandler):
     """
@@ -23,7 +24,7 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
 
-        self.data = self.request.recv(1024).strip()
+        self.data = self.request.recv(BUFFER_SIZE).strip()
         logging.info("{} Wrote:".format(self.client_address[0]))
 
         if(self.data is None or self.data == b''):

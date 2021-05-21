@@ -51,8 +51,6 @@ async def data(self, request):
     async with sse_response(request) as resp:
         while True:
             parsed_data = decode(last_message_from_topic[0])
-            print("message type .........................................................................")
-            print(parsed_data["message_type"])
             if(parsed_data["message_type"] == "BasicSafetyMessage"):
                 await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
                 await asyncio.sleep(0.001, loop=loop)

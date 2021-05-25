@@ -98,7 +98,7 @@ Connected and Automated Vehicle education (CAVe)-in-a-box is an educational tool
 
 * [Docker](https://docs.docker.com/get-docker/)
 * [kafka](https://kafka.apache.org/)
-* sqlpad(https://sqlpad.github.io/sqlpad/#/)
+* [sqlpad](https://sqlpad.github.io/sqlpad/#/)
 * [J2735: Dedicated Short Range Communications](https://www.sae.org/standards/content/j2735_200911/)
 
 
@@ -184,7 +184,7 @@ Project Link: [https://github.com/usdot-fhwa-stol/cav-education](https://github.
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * [Kafa](https://kafka.apache.org/)
-
+* [sqlpad](https://sqlpad.github.io/sqlpad/#/)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

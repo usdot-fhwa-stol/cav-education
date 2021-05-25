@@ -1,7 +1,3 @@
-# cav_in_box
-
-cav in box is a platfrom for collecting dsrc data.
-
 ## Installation
 
 cav in box uses docker container to start the services.

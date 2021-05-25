@@ -196,7 +196,7 @@ services:
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
       - TIME_ZONE=EST
-      - LOGLEVEL=WARNING
+      - LOGLEVEL=DEBUG
 
   faust:
     build: ../faust/.
@@ -213,6 +213,7 @@ services:
       - WAIT_HOST_CONNECT_TIMEOUT=30
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - LOGLEVEL=DEBUG
 
   sqlpad:
     image: sqlpad/sqlpad:5.6.0

@@ -14,6 +14,11 @@ from pathlib import Path
 
 from avro.io import DatumReader, BinaryDecoder
 import avro.schema
+import logging
+import os
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'WARNING').upper()
+logging.basicConfig(level=LOGLEVEL)
 
 value_schema = avro.schema.parse(open(f"{Path(__file__).parents[0]}/models/dsrc_message_value.json", "rb").read())
 key_schema = avro.schema.parse(open(f"{Path(__file__).parents[0]}/models/dsrc_message_key.json", "rb").read())
@@ -50,6 +55,7 @@ async def data(self, request):
     loop = request.app.loop
     async with sse_response(request) as resp:
         while True:
+            logging.debug(last_message_from_topic[0])
             parsed_data = decode(last_message_from_topic[0])
             if(parsed_data["message_type"] == "BasicSafetyMessage"):
                 await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))

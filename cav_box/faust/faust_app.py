@@ -35,11 +35,17 @@ def decode(msg_value):
 
 topic_value = app.topic("incomming_dsrc_message")
 last_message_from_topic = ['No messages yet']
+message_count = 0 #reset every 2 seconds
 
 @app.agent(topic_value)
 async def greet(greetings):
-    async for greeting in greetings:
+    global message_count
+    async for greeting in greetings:        
         last_message_from_topic[0] = greeting
+        data = f'{decode(last_message_from_topic[0])}'
+        parsed_data = decode(last_message_from_topic[0])
+        if( parsed_data["message_type"] == "BasicSafetyMessage"):
+            message_count += 1            
 
 @app.page('/bsm')
 async def bsm(self, request):
@@ -51,6 +57,22 @@ async def bsm(self, request):
             if( parsed_data["message_type"] == "BasicSafetyMessage"):
                 await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
                 await asyncio.sleep(0.001, loop=loop)
+    return resp
+
+
+@app.timer(interval=2.0)
+async def bsm_count_reset():
+    global message_count
+    message_count = -1 #ignore the first message in queue
+
+@app.page('/bsm_count')
+async def bsm_count(self, request):
+    global message_count
+    loop = request.app.loop
+    async with sse_response(request) as resp:
+        while True:
+            await resp.send(json.dumps(message_count))  
+            await asyncio.sleep(0.01, loop=loop)
     return resp
 
 @app.page('/')

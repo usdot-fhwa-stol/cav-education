@@ -367,7 +367,6 @@ function updateArryElementDataCountbyName(array, element_name, count)
             
             // var json = JSON.parse(e.data);
             // console.log("count live data for " + json.message_type);
-            ++BSMLiveCount;
             // if(json.message_type.trim() == "BSM" || json.message_type.trim()=="BasicSafetyMessage")
             // {
             //     ++BSMLiveCount;
@@ -383,6 +382,14 @@ function updateArryElementDataCountbyName(array, element_name, count)
             // else if(json.message_type.trim() == "MAP" ){
             //     ++MAPLiveCount; 
             // }
+        }
+
+        var evtSource_bsm_count = new EventSource("/bsm_count");
+        evtSource_bsm_count.onmessage = function (e) {           
+            if(e.data > 0){
+                console.log(JSON.parse(e.data));
+                BSMLiveCount = JSON.parse(e.data);
+            }
         }
 
         //Grap
@@ -459,6 +466,8 @@ function updateArryElementDataCountbyName(array, element_name, count)
                 let interval =  new Promise((resolve,reject)=>{
                     resolve('waited for ' + INTERVAL_SECS +' secs');
                 });
+
+            console.log("interval: BSM count: " + BSMLiveCount);
 
                 interval.then((data)=>{
                     console.log('data '+ data);

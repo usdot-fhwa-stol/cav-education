@@ -145,6 +145,20 @@ services:
     entrypoint: /bin/sh
     tty: true
 
+  kafka-rest:
+    image: confluentinc/cp-kafka-rest:6.1.1
+    hostname: kafka-rest
+    ports:
+    - "38082:38082"
+    depends_on:
+      - schema-registry
+    environment:
+      KAFKA_REST_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_REST_SCHEMA_REGISTRY_URL: schema-registry:38081
+      KAFKA_REST_HOST_NAME: kafka-rest
+      KAFKA_REST_LISTENERS: http://kafka-rest:38082
+      KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
+
 # Other systems
   mysql:
     # *-----------------------------*
@@ -164,20 +178,6 @@ services:
     volumes:
      - ./data/mysql:/docker-entrypoint-initdb.d/
 
-  kafka-rest:
-    image: confluentinc/cp-kafka-rest:6.1.1
-    hostname: kafka-rest
-    ports:
-    - "38082:38082"
-    depends_on:
-      - schema-registry
-    environment:
-      KAFKA_REST_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_REST_SCHEMA_REGISTRY_URL: schema-registry:38081
-      KAFKA_REST_HOST_NAME: kafka-rest
-      KAFKA_REST_LISTENERS: http://kafka-rest:38082
-      KAFKA_REST_BOOTSTRAP_SERVERS: kafka:29092
-
   cav:
     build: ../kafka/.
     container_name: cav
@@ -195,6 +195,8 @@ services:
       - DSRC_LISTENER_PORT=8882
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - TIME_ZONE=EST
+      - LOGLEVEL=DEBUG
 
   faust:
     build: ../faust/.
@@ -211,6 +213,7 @@ services:
       - WAIT_HOST_CONNECT_TIMEOUT=30
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - LOGLEVEL=DEBUG
 
   sqlpad:
     image: sqlpad/sqlpad:5.6.0
@@ -239,52 +242,6 @@ services:
       SQLPAD_CONNECTIONS__mariad__database: cav
       SQLPAD_CONNECTIONS__mariad__username: root
       SQLPAD_CONNECTIONS__mariad__password: Admin123
-
-  # server:
-  #   build:
-  #     context: ../node-react/server/
-  #   command: /usr/app/node_modules/.bin/nodemon src/index.js
-  #   volumes:
-  #     - ../node-react/server/:/usr/app
-  #     - /usr/app/node_modules
-  #   ports:
-  #     - "9000:9000"
-  #     - "3001:3001"
-  #   # env_file: ./server/.env # TODO - uncomment this to auto-load your .env file!
-  #   environment:
-  #     - NODE_ENV=development
-  #     - CHOKIDAR_USEPOLLING=true
-
-  # client:
-  #   build:
-  #     context: ../node-react/client/
-  #   command: npm start
-  #   volumes:
-  #     - ../node-react/client/:/app
-  #     - /usr/app/node_modules
-  #   depends_on:
-  #     - server
-  #   ports:
-  #     - "3002:3002"
-  #   environment:
-  #     - PORT=3002
-  #     - CHOKIDAR_USEPOLLING=true
-
-  # web:
-  #   build: ../web/.
-  #   container_name: web
-  #   command: sh -c "/wait && /code/app.sh"
-  #   # volumes:
-  #   #   - .:/code
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - mysql
-  #   environment:
-  #     - WAIT_HOSTS=mysql:3306, node:1337, cav:8882
-  #     - WAIT_HOSTS_TIMEOUT=300
-  #     - WAIT_SLEEP_INTERVAL=30
-  #     - WAIT_HOST_CONNECT_TIMEOUT=30
 
 volumes:
     db-leach: {}

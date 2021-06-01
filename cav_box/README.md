@@ -1,7 +1,3 @@
-# cav_in_box
-
-cav in box is a platfrom for collecting dsrc data.
-
 ## Installation
 
 cav in box uses docker container to start the services.
@@ -19,10 +15,23 @@ cd cavinbox/docker
 docker-compose up --build
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Before usage place the J2735.py inside kafka/src/dsrc_message_decoder 
+to obtaine the source code for J2735.py contact `carmasuport@dot.gov`
 
-Please make sure to update tests as appropriate.
+To take a look at the UI open browser and use bellow to access the UI
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+| Feature         | address         |
+| --------------  | --------------- |
+| CAV LIVE UI     | localhost:6066  |
+| Control Center  | localhost:8083  |
+| Sqlpad          | localhost:3000  |
+
+Sqlpad will require username and password. 
+
+## Local Tests
+
+to run local test cases use the test folder to produce sample data
+```bash
+cd cavinbox/test
+python client.py
+```

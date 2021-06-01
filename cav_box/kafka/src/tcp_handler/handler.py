@@ -9,6 +9,7 @@ from dsrc_message_decoder.message_frame_decoder import MessageFrameDecoder
 from producers.dsrc import Dsrc
 from binascii import hexlify, unhexlify
 
+BUFFER_SIZE = 2048
 
 class TCPHandler(socketserver.BaseRequestHandler):
     """
@@ -23,33 +24,23 @@ class TCPHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
 
-        self.data = self.request.recv(1024).strip()
+        self.data = self.request.recv(BUFFER_SIZE).strip()
         logging.info("{} Wrote:".format(self.client_address[0]))
-
-        # print(self.data)
 
         if(self.data is None or self.data == b''):
             self.request.sendall(self.data.upper())
         else:
             try:
-                msg = self.mfd.decode(self.data)
-                record_key = "J2735.DSRC.MessageFrame"
-
-                if("value" in msg()):
-                    record_value = json.dumps(msg()['value'][1])
-
+                key, msg = self.mfd.decode(self.data)
+                logging.debug(msg)
+                if(msg != None):
                     self.dsrc_message_producer.set_original_message(unhexlify(self.data).decode('utf-8'))
-                    self.dsrc_message_producer.set_payload(record_value)
-                    self.dsrc_message_producer.set_message_type(msg()['value'][0])
+                    self.dsrc_message_producer.set_payload(msg)
+                    self.dsrc_message_producer.set_message_type(key)
                     self.dsrc_message_producer.run()
 
                 self.request.sendall(self.data.upper())
 
             except Exception as e:
-                print(e)
+                logging.error(e)
                 self.request.sendall(self.data.upper())
-
-
-
-
-# ('BasicSafetyMessage', {'coreData': {'msgCnt': 117, 'id': "b'gE\\x8bk'", 'secMark': 24440, 'lat': 389565434, 'long': -771500475, 'elev': 745, 'accuracy': {'semiMajor': 255, 'semiMinor': 255, 'orientation': 65535}, 'transmission': 'neutral', 'speed': 8191, 'heading': 28800, 'angle': 127, 'accelSet': {'long': 2001, 'lat': 2001, 'vert': -127, 'yaw': 0}, 'brakes': {'wheelBrakes': (0, 5), 'traction': 'unavailable', 'abs': 'unavailable', 'scs': 'unavailable', 'brakeBoost': 'unavailable', 'auxBrakes': 'unavailable'}, 'size': {'width': 200, 'length': 500}}}) 

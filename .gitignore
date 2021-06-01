@@ -1,4 +1,6 @@
-cav_box/web/cav_fe/migrations/
-cav_box/web/cav/__pycache__/
-cav_box/web/cav_fe/__pycache__/
-cav_box/node_services/kafka_service/node_modules/
+**/.o
+**/.pyc
+**/bin
+**/.DS_Store
+**/.tmp
+**/logs

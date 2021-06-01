@@ -355,8 +355,8 @@ function updateArryElementDataCountbyName(array, element_name, count)
 
         var marker = L.marker(TFHRC).addTo(mymap);
 
-        var evtSource = new EventSource("/bsm");
-        evtSource.onmessage = function (e) {
+        var BSM_evtSource = new EventSource("/data");
+        BSM_evtSource.onmessage = function (e) {
 
             var lat = (JSON.parse(e.data).lat / 10000000);
             var lng = (JSON.parse(e.data).long / 10000000);

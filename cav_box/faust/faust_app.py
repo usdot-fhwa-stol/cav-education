@@ -14,6 +14,11 @@ from pathlib import Path
 
 from avro.io import DatumReader, BinaryDecoder
 import avro.schema
+import logging
+import os
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'WARNING').upper()
+logging.basicConfig(level=LOGLEVEL)
 
 value_schema = avro.schema.parse(open(f"{Path(__file__).parents[0]}/models/dsrc_message_value.json", "rb").read())
 key_schema = avro.schema.parse(open(f"{Path(__file__).parents[0]}/models/dsrc_message_key.json", "rb").read())
@@ -28,10 +33,14 @@ app = faust.App(
 # greetings_topic = app.topic('incomming_dsrc_message')
 
 def decode(msg_value):
-    message_bytes = io.BytesIO(msg_value[5::])
-    decoder = BinaryDecoder(message_bytes)
-    event_dict = reader.read(decoder)
-    return event_dict
+    try:
+        message_bytes = io.BytesIO(msg_value[5::])
+        decoder = BinaryDecoder(message_bytes)
+        event_dict = reader.read(decoder)
+        return event_dict
+    except Exception as e:
+        print(e) 
+        return ""
 
 topic_value = app.topic("incomming_dsrc_message")
 last_message_from_topic = ['No messages yet']
@@ -47,14 +56,14 @@ async def greet(greetings):
         if( parsed_data["message_type"] == "BasicSafetyMessage"):
             message_count += 1            
 
-@app.page('/bsm')
-async def bsm(self, request):
+@app.page('/data')
+async def data(self, request):
     loop = request.app.loop
     async with sse_response(request) as resp:
         while True:
-            data = f'{decode(last_message_from_topic[0])}'
+            logging.debug(last_message_from_topic[0])
             parsed_data = decode(last_message_from_topic[0])
-            if( parsed_data["message_type"] == "BasicSafetyMessage"):
+            if(parsed_data["message_type"] == "BasicSafetyMessage"):
                 await resp.send(json.dumps(json.loads(parsed_data["payload"])["coreData"]))
                 await asyncio.sleep(0.001, loop=loop)
     return resp

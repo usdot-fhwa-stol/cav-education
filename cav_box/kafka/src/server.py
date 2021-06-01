@@ -3,9 +3,13 @@ import socketserver
 
 from tcp_handler.handler import TCPHandler
 import os
+import logging
 
 
 if __name__ == "__main__":
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'WARNING').upper()
+    logging.basicConfig(level=LOGLEVEL)
+    
     DSRC_LISTENER_HOST = os.getenv('DSRC_LISTENER_HOST', "0.0.0.0")
     DSRC_LISTENER_PORT = os.getenv('DSRC_LISTENER_PORT', 8882)
 

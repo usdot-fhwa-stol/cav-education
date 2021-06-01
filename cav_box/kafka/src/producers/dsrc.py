@@ -5,6 +5,8 @@ from confluent_kafka import avro
 from .producer import Producer
 import time    
 from datetime import datetime
+from pytz import timezone
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -27,13 +29,11 @@ class Dsrc(Producer):
         self.message_type = message_type
         self.original_message = original_message
         self.payload = payload
-        now = datetime.now()
-        self.timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
-
 
     def run(self):
+        TIME_ZONE = os.getenv('TIME_ZONE', "EST")
+        tz = timezone(TIME_ZONE)
         try:
-            now = datetime.now()
             self.producer.produce(
                 topic=self.topic_name,
                 key={"timestamp": self.time_millis()},
@@ -42,7 +42,7 @@ class Dsrc(Producer):
                     "message_type": self.message_type,
                     "original_message": self.original_message,
                     "payload": self.payload,
-                    "timestamp": now.strftime('%Y-%m-%d %H:%M:%S')
+                    "timestamp": datetime.now(tz).strftime('%Y-%m-%d %H:%M:%S.%f')
                 }
             )
         except Exception as e:

@@ -4,3 +4,4 @@ requests==2.25.1
 avro-python3==1.10.1
 fastavro==1.2.1
 pytz
+flatten_json

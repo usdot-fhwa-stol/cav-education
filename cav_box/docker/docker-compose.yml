@@ -198,22 +198,22 @@ services:
       - TIME_ZONE=EST
       - LOGLEVEL=DEBUG
 
-  faust:
-    build: ../faust/.
-    container_name: faust
-    command: sh -c "/wait && /code/app.sh"
-    ports:
-      - 6066:6066
-    expose:
-      - 6066
-    environment:
-      - WAIT_HOSTS=mysql:3306, kafka:29092, kafka-connect-01:8083, schema-registry:8081
-      - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=30
-      - WAIT_HOST_CONNECT_TIMEOUT=30
-      - BOOTSTRAP_SERVERS=kafka:29092
-      - SCHEMA_REGISTRY_URL=http://schema-registry:8081
-      - LOGLEVEL=DEBUG
+  # faust:
+  #   build: ../faust/.
+  #   container_name: faust
+  #   command: sh -c "/wait && /code/app.sh"
+  #   ports:
+  #     - 5000:5000
+  #   expose:
+  #     - 5000
+  #   environment:
+  #     - WAIT_HOSTS=mysql:3306, kafka:29092, kafka-connect-01:8083, schema-registry:8081
+  #     - WAIT_HOSTS_TIMEOUT=300
+  #     - WAIT_SLEEP_INTERVAL=30
+  #     - WAIT_HOST_CONNECT_TIMEOUT=30
+  #     - BOOTSTRAP_SERVERS=kafka:29092
+  #     - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+  #     - LOGLEVEL=DEBUG
 
   sqlpad:
     image: sqlpad/sqlpad:5.6.0
@@ -233,9 +233,10 @@ services:
       SQLPAD_DB_PATH: '/var/lib/sqlpad'
       SQLPAD_DB_IN_MEMORY: 'false'
       SQLPAD_QUERY_RESULT_STORE: 'database'
+      SQLPAD_USERPASS_AUTH_DISABLED: 'false'
       # This adds a pre-configured connection to point to the database
       # used as the backend for SQLPad itself
-      SQLPAD_CONNECTIONS__mariad__name: 'Mysql Demo'
+      SQLPAD_CONNECTIONS__mariad__name: 'Mysql'
       SQLPAD_CONNECTIONS__mariad__driver: mysql
       SQLPAD_CONNECTIONS__mariad__host: mysql
       SQLPAD_CONNECTIONS__mariad__port: 3306
@@ -243,5 +244,25 @@ services:
       SQLPAD_CONNECTIONS__mariad__username: root
       SQLPAD_CONNECTIONS__mariad__password: Admin123
 
+  flask:
+    build: ../flask/.
+    container_name: flask
+    command: sh -c "/wait && /code/app.sh"
+    ports:
+      - "5000:5000"
+    expose:
+      - 5000
+    environment:
+      - WAIT_HOSTS=mysql:3306, kafka:29092, kafka-connect-01:8083, schema-registry:8081
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+      - BOOTSTRAP_SERVERS=kafka:29092
+      - SCHEMA_REGISTRY_URL=http://schema-registry:8081
+      - LOGLEVEL=DEBUG
+
+  redis:
+    image: "redis:alpine"
+    
 volumes:
     db-leach: {}

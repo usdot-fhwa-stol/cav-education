@@ -183,7 +183,7 @@ Project Link: [https://github.com/usdot-fhwa-stol/cav-education](https://github.
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [Kafa](https://kafka.apache.org/)
+* [Kafka](https://kafka.apache.org/)
 * [sqlpad](https://sqlpad.github.io/sqlpad/#/)
 
 <!-- MARKDOWN LINKS & IMAGES -->

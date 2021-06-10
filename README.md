@@ -134,7 +134,7 @@ To take a look at the UI open browser and use bellow to access the UI
 
 | Feature         | address         |
 | --------------  | --------------- |
-| CAV LIVE UI     | localhost:6066  |
+| CAV LIVE UI     | localhost:5000  |
 | Control Center  | localhost:8083  |
 | Sqlpad          | localhost:3000  |
 

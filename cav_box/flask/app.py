@@ -1,5 +1,6 @@
 from flask import Flask, render_template, Response
 from pykafka import KafkaClient
+from pykafka.common import OffsetType
 
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
@@ -40,7 +41,7 @@ def index():
 def get_messages(topicname):
     client = get_kafka_client()
     def events():
-        for i in client.topics[topicname].get_simple_consumer():
+        for i in client.topics[topicname].get_simple_consumer(auto_offset_reset=OffsetType.LATEST, reset_offset_on_start=True):
             data = decode(i.value)
             try:
                 data["payload"] = json.loads(data["payload"])

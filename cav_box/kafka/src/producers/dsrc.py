@@ -25,7 +25,7 @@ class Dsrc(Producer):
             num_replicas=1,
         )
 
-        self.message_id = int(message_id)
+        # self.message_id = int(message_id)
         self.message_type = message_type
         self.original_message = original_message
         self.payload = payload
@@ -38,7 +38,7 @@ class Dsrc(Producer):
                 topic=self.topic_name,
                 key={"timestamp": self.time_millis()},
                 value={
-                    "id": self.message_id,
+                    # "id": self.message_id,
                     "message_type": self.message_type,
                     "original_message": self.original_message,
                     "payload": self.payload,

@@ -302,12 +302,18 @@ function updateArryElementDataCountbyName(array, element_name, count)
             console.log(JSON.parse(e.data));
 
             if(data["message_type"] == "BasicSafetyMessage") {
+
                 var lat = (data["payload"]["coreData"].lat / 10000000);
                 var lng = (data["payload"]["coreData"].long / 10000000);
 
                 var newLatLng = new L.LatLng(lat, lng);
                 marker.setLatLng(newLatLng);
-                mymap.setView(newLatLng, 19);
+
+                var description = "Speed : " + data["payload"]["coreData"].speed/100 + "<br>" + "Lat : " + lat + "<br>" + "Long : " + lng + "<br>" + "elev : " + data["payload"]["coreData"].elev
+
+                marker.bindPopup(description).openPopup();
+
+                mymap.setView(newLatLng, 17);
                 
                 ++BSMLiveCount;
             }

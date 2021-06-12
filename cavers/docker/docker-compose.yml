@@ -257,9 +257,8 @@ services:
       - BOOTSTRAP_SERVERS=kafka:29092
       - SCHEMA_REGISTRY_URL=http://schema-registry:8081
       - LOGLEVEL=DEBUG
-
-  redis:
-    image: "redis:alpine"
+    volumes:
+      - ../flask:/code
     
 volumes:
     db-leach: {}

@@ -1,4 +1,1 @@
-# sleep 40
-# faust -A faust_app worker -l info
-
-flask run
+FLASK_APP=app.py FLASK_ENV=development flask run

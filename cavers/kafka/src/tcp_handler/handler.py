@@ -38,7 +38,6 @@ class TCPHandler(socketserver.BaseRequestHandler):
     mfd = MessageFrameDecoder()
 
     def handle(self):
-
         self.data = self.request.recv(BUFFER_SIZE).strip()
         logging.info("{} Wrote:".format(self.client_address[0]))
 
@@ -46,16 +45,20 @@ class TCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(self.data.upper())
         else:
             try:
-                key, msg = self.mfd.decode(self.data)
-                logging.debug(msg)
-                if(msg != None):
-                    self.dsrc_message_producer.set_original_message(unhexlify(self.data).decode('utf-8'))
-                    self.dsrc_message_producer.set_payload(msg)
-                    self.dsrc_message_producer.set_message_type(key)
-                    self.dsrc_message_producer.run()
-
-                self.request.sendall(self.data.upper())
-
+                self.produce(self.data)
             except Exception as e:
                 logging.error(e)
-                self.request.sendall(self.data.upper())
+            self.request.sendall(self.data.upper())
+
+    def produce(self, data):
+        try:
+            key, msg = self.mfd.decode(data)
+            logging.debug(msg)
+            if(msg != None):
+                self.dsrc_message_producer.set_original_message(unhexlify(data).decode('utf-8'))
+                self.dsrc_message_producer.set_payload(msg)
+                self.dsrc_message_producer.set_message_type(key)
+                self.dsrc_message_producer.run()
+
+        except Exception as e:
+            logging.error(e)

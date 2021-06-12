@@ -39,6 +39,7 @@ class Dsrc(Producer):
             num_replicas=1,
         )
 
+        self.message_id = message_id
         self.message_type = message_type
         self.original_message = original_message
         self.payload = payload
@@ -46,12 +47,14 @@ class Dsrc(Producer):
     def run(self):
         TIME_ZONE = os.getenv('TIME_ZONE', "EST")
         tz = timezone(TIME_ZONE)
+        logging.debug(self.message_id)
+        logging.debug("produceing dsrc data")
         try:
             self.producer.produce(
                 topic=self.topic_name,
                 key={"timestamp": self.time_millis()},
                 value={
-                    # "id": self.message_id,
+                    "id": self.message_id,
                     "message_type": self.message_type,
                     "original_message": self.original_message,
                     "payload": self.payload,

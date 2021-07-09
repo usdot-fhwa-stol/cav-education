@@ -63,9 +63,9 @@ class MessageFrameDecoder():
 
         logging.debug("decoded message")
         logging.debug(msg.__dict__)
-
+        key = msg()['value'][0]
+        
         try:
-            key = msg()['value'][0]
             msg()["value"][1]['regional'][0]['regExtValue'] = [msg()["value"][1]['regional'][0]['regExtValue'][0],str(msg()["value"][1]['regional'][0]['regExtValue'][1])]
         except Exception as e:
             pass

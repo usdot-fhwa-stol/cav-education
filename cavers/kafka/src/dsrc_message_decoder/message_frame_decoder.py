@@ -34,8 +34,11 @@ class MessageFrameDecoder():
         logging.debug("decoded message")
         logging.debug(msg.__dict__)
 
-        key = msg()['value'][0]
-        msg()['value'][1]['coreData']['id'] = str(msg()['value'][1]['coreData']['id'])
+        try:
+            key = msg()['value'][0]
+            msg()['value'][1]['coreData']['id'] = str(msg()['value'][1]['coreData']['id'])
+        except Exception as e:
+            pass
         record_value = json.dumps(msg()['value'][1])
 
         return key,record_value
@@ -65,8 +68,7 @@ class MessageFrameDecoder():
             key = msg()['value'][0]
             msg()["value"][1]['regional'][0]['regExtValue'] = [msg()["value"][1]['regional'][0]['regExtValue'][0],str(msg()["value"][1]['regional'][0]['regExtValue'][1])]
         except Exception as e:
-            logging.exception(e)
-
+            pass
         record_value = json.dumps(msg()["value"][1])
 
         return key,record_value

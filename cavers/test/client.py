@@ -9,7 +9,7 @@ from time import sleep
 TCP_IP = '127.0.0.1'
 TCP_PORT = 8882
 BUFFER_SIZE = 1024
-timebuffer = 0.003
+timebuffer = 0.1
 
 number_message = 10000
 cnt = 0

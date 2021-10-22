@@ -4,7 +4,7 @@ from binascii import hexlify, unhexlify
 import time
 import re
 
-tcpip_listen = '10.0.2.15'
+tcpip_listen = ''
 port_listen = 8010
 sk_listen = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 # connect to port
@@ -20,10 +20,12 @@ port_send = 8882
 msgIds=['0012','0013','0014'] # this needs to be updated
 while True:
     print("Receiving Data")
-    data = sk_listen.recvfrom(10000)
-    datastr=str(data)
+    #data = sk_listen.recvfrom(10000)
+    data =sk_listen.recvfrom(10000)[0]
+    #datastr=str(data)
     data = str(data).replace("\\n"," ")
-    data1 = datastr.split("\\n")
+    data1 = str(data).split("\\n")
+    print(data1)
     for st in data1:
         for id in msgIds:
             if (st[0:4] == id):
@@ -31,17 +33,28 @@ while True:
             else:
                 idx=-1
             if (idx > -1 ):
-                if (int('0x'+st[idx+4],16)==8):
-                    lenstr=int('0x'+st[idx+5:idx+8],16)*2+6 # including the 
+                try:
+                    ll =int('0x'+st[idx+4],16)
+                except:
+                    print(".")
+                    ll=0
+                if (ll==8):
+                    try:
+                        lenstr=int('0x'+st[idx+5:idx+8],16)*2+6 # including the 
+                    except:
+                        print(".")
+                        lenstr=0
                 else:
-                    lenstr=int('0x'+st[idx+4:idx+6],16)*2+6 # including the 
-                if(lenstr <= len(st)):
+                    try:
+                        lenstr=int('0x'+st[idx+4:idx+6],16)*2+6 # including the 
+                    except:
+                        print(".")
+                        lenstr=0
+                if(lenstr and lenstr <= len(st)):
                     print(hexlify(st[idx:idx+lenstr].encode('utf-8')))
-		    sk_send=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-		    sk_send.connect((tcpip_send,port_send))
+                    sk_send=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+                    sk_send.connect((tcpip_send,port_send))
                     print("sent:: ",sk_send.send(hexlify(st[idx:idx+lenstr].encode('utf-8'))))
                     print("received:: ",sk_send.recv(1024))
-		    sk_send.close()
-
-
+                    sk_send.close()
                     break

@@ -31,7 +31,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
  -->
-  <h3 align="center">Connected and Automated Vehicle Education</h3>
+  <h3 align="center">Connected and Automated Vehicle Education Research Software</h3>
 
   <p align="center">
     Connected and Automated Vehicle Education in box is a platfrom for collecting and visualizing dsrc data.
@@ -105,26 +105,27 @@ Connected and Automated Vehicle education (CAVe)-in-a-box is an educational tool
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get started install the prerequisites and obtain a copy of J2735.py and place it inside kafka/src/dsrc_message_decoder.
+To get started install the prerequisites and obtain a copy of J2735.py and place it inside cav-education/cavers/kafka/src/dsrc_message_decoder/.
 
 ### Prerequisites
 
-cav in box uses docker container to start the services.
+CAVERS uses docker to start the services.
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-`J2735.py` to obtaine the source code for J2735.py contact [carmasupport@dot.gov](carmasupport@dot.gov)
+`J2735.py` - to obtain the source code for J2735.py contact [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
 
 ### Installation
 
 1. Clone the repo
    ```sh
    git clone https://github.com/usdot-fhwa-stol/cav-education.git
-   cd cavinbox/docker
-   docker-compose up --build
+   mv <directoryToFile>/J2735.py cav-education/cavers/kafka/src/dsrc_message_decoder/
+   cd cav-education/cavers/docker/
+   sudo docker-compose up
    ```
 
 <!-- USAGE EXAMPLES -->
@@ -142,9 +143,13 @@ Sqlpad will require username and password.
 
 ## Local Tests
 
-to run local test cases use the test folder to produce sample data
+To run local test cases use the test folder to produce sample data
 ```bash
-cd cavinbox/test
+cd cav-education/cavers/test
+python msggateway.py
+```
+Open a new terminal tab and run:
+```bash
 python client.py
 ```
 
@@ -176,14 +181,15 @@ Distributed under the Apache License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-carma support services - [carmasupport@dot.gov](carmasupport@dot.gov)
+CAV Support Services - [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
+CARMA Support Services - [carmasupport@dot.gov](carmasupport@dot.gov)
 
 Project Link: [https://github.com/usdot-fhwa-stol/cav-education](https://github.com/usdot-fhwa-stol/cav-education)
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [Kafa](https://kafka.apache.org/)
+* [Kafka](https://kafka.apache.org/)
 * [sqlpad](https://sqlpad.github.io/sqlpad/#/)
 
 <!-- MARKDOWN LINKS & IMAGES -->

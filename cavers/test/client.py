@@ -14,8 +14,8 @@ timebuffer = 0.1
 number_message = 10000
 cnt = 0
 
-csvfile = open('spat_map_sample.csv')
-# csvfile = open('BSM_TEST.csv')
+# csvfile = open('spat_map_sample.csv')
+csvfile = open('BSM_TEST.csv')
 uperreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 
 for row in uperreader:

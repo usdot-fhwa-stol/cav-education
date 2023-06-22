@@ -176,7 +176,7 @@ Distributed under the Apache License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-cav support services - [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
+CAV support services - [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
 
 Project Link: [https://github.com/usdot-fhwa-stol/cav-education](https://github.com/usdot-fhwa-stol/cav-education)
 

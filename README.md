@@ -116,7 +116,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 ```
 
-`J2735.py` to obtaine the source code for J2735.py contact [carmasupport@dot.gov](carmasupport@dot.gov)
+`J2735.py` to obtaine the source code for J2735.py contact [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
 
 ### Installation
 
@@ -176,7 +176,7 @@ Distributed under the Apache License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-carma support services - [carmasupport@dot.gov](carmasupport@dot.gov)
+CAV support services - [CAVSupportServices@dot.gov](CAVSupportServices@dot.gov)
 
 Project Link: [https://github.com/usdot-fhwa-stol/cav-education](https://github.com/usdot-fhwa-stol/cav-education)
 

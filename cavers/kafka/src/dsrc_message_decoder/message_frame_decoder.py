@@ -1,5 +1,5 @@
 from binascii import hexlify, unhexlify
-from . import J2735
+from . import J2735_201603_2023_06_22
 import logging
 import json
 
@@ -28,7 +28,7 @@ class MessageFrameDecoder():
     
     def bsm_decoder(self,dsrc_data):
         unhex_data = unhexlify(dsrc_data)
-        msg = J2735.DSRC.MessageFrame
+        msg = J2735_201603_2023_06_22.DSRC.MessageFrame
         msg.from_uper(unhex_data)
 
         logging.debug("decoded message")
@@ -46,7 +46,7 @@ class MessageFrameDecoder():
     def map_decoder(self,dsrc_data):
         unhex_data = unhexlify(dsrc_data)
         key = "MapData"
-        msg = J2735.DSRC.MapData
+        msg = J2735_201603_2023_06_22.DSRC.MapData
         msg.from_uper(unhex_data)
 
         logging.debug("decoded message")
@@ -58,7 +58,7 @@ class MessageFrameDecoder():
 
     def spat_decoder(self,dsrc_data):
         unhex_data = unhexlify(dsrc_data)
-        msg = J2735.DSRC.MessageFrame
+        msg = J2735_201603_2023_06_22.DSRC.MessageFrame
         msg.from_uper(unhex_data)
 
         logging.debug("decoded message")

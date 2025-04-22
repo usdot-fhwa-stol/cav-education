@@ -1,6 +1,7 @@
 **/.o
-**/.pyc
 **/bin
 **/.DS_Store
 **/.tmp
 **/logs
+*.py
+*.pyc
